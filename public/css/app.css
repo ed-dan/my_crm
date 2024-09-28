@@ -1,0 +1,89 @@
+.circular--square {
+    border-radius: 50% 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.image-update {
+
+    width: 200px;
+}
+.select-width{
+    width:101%;
+}
+
+
+.link-color{
+    text-decoration: none;
+    color: #05bc8c;
+    a:hover
+
+
+}
+
+.link-color-blue{
+    text-decoration: none;
+    color: #f2f4f8;
+    a:hover
+
+
+}
+.link-color-red{
+    text-decoration: none;
+    color: #910404;
+
+}
+
+.alert-danger-red {
+    color: #fff;
+    background-color: rgba(250, 108, 108, 0.29);
+    border-color: #94101b;
+}
+
+.alert-success-green {
+    color: #fff;
+    background-color: rgba(86, 246, 142, 0.29);
+    border-color: #1d9410;
+}
+.alert-success-yellow {
+    color: #fff;
+    background-color: rgba(245, 232, 75, 0.3);
+    border-color: #ad9f02;
+}
+
+.bg-company-logo {
+    color: #fff;
+    background-color: rgba(126, 166, 133, 0.25);
+    border-color: #8c6b02;
+}
+.button {
+    display: inline-block;
+    background-color: rgba(62, 168, 100, 0.55);
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: rgba(65, 140, 104, 0.58);
+}
+
+.ui-menu .ui-menu-item a{
+    background:red;
+    height:10px;
+    font-size:8px;}
+p {
+    margin: 1em 0;
+    font-size: 16px;
+}
+
+
+
+
+
