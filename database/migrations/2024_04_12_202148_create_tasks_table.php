@@ -31,6 +31,9 @@ return new class extends Migration {
                 ->references('task_id')
                 ->on('users');
         });
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**

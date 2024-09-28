@@ -24,7 +24,9 @@ return new class extends Migration
             $table->timestamps();
             $table->index('product_id','product_company_idx');
         });
-
+        Schema::table('companies', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**

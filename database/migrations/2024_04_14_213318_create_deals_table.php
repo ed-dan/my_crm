@@ -43,7 +43,9 @@ return new class extends Migration
                 ->references('task_id')
                 ->on('deals');
         });
-
+        Schema::table('deals', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**

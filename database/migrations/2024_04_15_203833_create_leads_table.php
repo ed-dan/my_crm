@@ -36,6 +36,9 @@ return new class extends Migration
                 ->references('id')
                 ->on('products');
         });
+        Schema::table('leads', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**

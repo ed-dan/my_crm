@@ -24,6 +24,9 @@ return new class extends Migration
                 ->references('id')
                 ->on('statuses');
         });
+        Schema::table('statuses', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**

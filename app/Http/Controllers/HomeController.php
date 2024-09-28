@@ -88,7 +88,7 @@ class HomeController extends Controller
         $capacity = array_sum($deal_statistic) ? intval(($deal_statistic["Confirm"] / array_sum($deal_statistic)) * 100) : 1;
         return view('home-pages.analyst-home', [
             "users" => $users,
-            "profit" => $profit->find(1)->deals_sum_amount,
+            "profit" => $profit->find(1)->deals_sum_amount ?? 0,
             "capacity" => $capacity,
             'deal_statistic' => $deal_statistic,
             'confirmed_deals' => $this->confirmed_deals->CountSuccessDeals(),

@@ -26,6 +26,9 @@ return new class extends Migration
                 ->references('note_id')
                 ->on('deals');
         });
+        Schema::table('notes', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
