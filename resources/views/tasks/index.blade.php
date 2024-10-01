@@ -66,11 +66,11 @@
                                         </div>
                                         <div class="d-inline-block mr-1 " style="float: right;">
                                             <button type="button" class="btn btn-block btn-outline-warning ">
-                                                @if(($task->stage_id == 2) or ($task->stage_id == 3))
+                                                @if(($task->deal->stage_id == 2) or ($task->deal->stage_id == 3))
                                                     @php
                                                     //dd($task->id);
                                                     @endphp
-                                                    <a class="text-black" href={{ route("deal.about", $task->id)}} >
+                                                    <a class="text-black" href={{ route("deal.about", $task->deal->id)}} >
                                                         <ion-icon name="search-outline"></ion-icon>
                                                     </a>
 {{--                                                @elseif($task->stage_id == 3)--}}
@@ -106,7 +106,7 @@
                                             <div class="mr-1">
                                                 @if($position == "Admin")
                                                     <h6>
-                                                        {{$task->name}}
+                                                        {{$task->employee->name}}
                                                     </h6>
                                                 @else
                                                     <h6>

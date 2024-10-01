@@ -16,47 +16,22 @@ use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
-
-    public function __construct(
-//        private StoreTaskRequest $request,
-//        private TaskService      $taskService,   ???
-    )
+    public function __construct()
     {
-        $this->middleware('auth');
     }
 
     public function index()
     {
-        $direction = "desc";
-        $employees = DB::table("users");
-        $manager_id = auth()->id();
-        if (request()->sort)
-            $direction = request()->sort;
-        date_default_timezone_set('Europe/Istanbul');
-        $today = date("Y-m-d");
-        $tasks = DB::table("tasks")
-            ->join("users", "users.id", "=", "tasks.employee_id")
-            ->join("deals", "deals.id", "=", "tasks.deal_id")
-            ->orderBy("tasks.deadline", $direction);
-        $tasks = $tasks->where("status_id", "=", 2);
-        if (\request()->search)
-            $tasks = $tasks->where("tasks.title", 'like', '%' . request('search') . '%');
-        if (request()->only)
-            $tasks->whereDate("tasks.deadline", request()->only, $today);
-        if (\request()->employee) {
-            $tasks = $tasks->where("deals.employee_id", "=", \request()->employee);
-        }
-        $position = Position::find(Auth::user()->position_id)->title;
-        if ($position === "Manager") {
-            $tasks->where("tasks.employee_id", "=", $manager_id);
-            $employees = $employees->get();
-        }
-        if ($position === "Admin")
-            $employees = $employees->where("users.id", "!=", $manager_id)->get();
+        $position_id = auth()->user()->position_id;
+
+        $tasks = Task::withWhereHas("deal", function ($query) {
+            $query->where("status_id", "=", 2);
+        })->with("employee")->WithFilter()->WithPosition($position_id);
+
         return view("tasks.index", [
             "tasks" => $tasks->get(),
-            "position" => $position,
-            "employees" => $employees,
+            "position" => Position::find($position_id)->title,
+            "employees" => User::where("position_id", "=", User::MANAGER_ID)->get(),
         ]);
     }
 
@@ -66,7 +41,7 @@ class TaskController extends Controller
         return view("tasks.create", [
             "stages" => Stage::all(),
             "deal" => $deal,
-            "lead" => Lead::where("id",$deal->lead_id)->get(),
+            "lead" => Lead::where("id", $deal->lead_id)->get(),
         ]);
     }
 
@@ -78,8 +53,9 @@ class TaskController extends Controller
 
     public function success($id)
     {
-        $deal = Deal::find($id);
-        $stages = DB::table("stages")->get();
-        return view("tasks.success", ["deal" => $deal, "stages" => $stages]);
+        return view("tasks.success", [
+            "deal" => Deal::find($id),
+            "stages" => DB::table("stages")->get()
+        ]);
     }
 }

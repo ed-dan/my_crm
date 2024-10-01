@@ -22,7 +22,6 @@ class TaskService
                 "task_id" => $deal_id,
                 "status_id" => $callback_status[0]->id
             ]);
-
             $taskData = $this->afterValidation($taskData, $deal_id);
             Task::create($taskData);
         });
