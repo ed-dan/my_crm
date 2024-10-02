@@ -33,11 +33,12 @@ use Illuminate\Support\Facades\Cache;
 Route::middleware("auth")->group(function (){
 
     Route::get('/', [HomeController::class, 'homePage'])->name('home');
+
     Route::prefix("leads")->group(function () {
         Route::get('/', [LeadController::class, 'index']);
         Route::get('/import', [LeadController::class, 'import'])->name('lead.import');
         Route::get('/{lead}/edit', [LeadController::class, 'edit'])->name('lead.edit');
-        Route::patch('/{lead}', [LeadController::class, 'createDeal'])->name('lead.update');
+        Route::patch('/{lead}', [LeadController::class, 'openDeal'])->name('lead.update');
     });
 
     Route::prefix("deals")->group(function () {

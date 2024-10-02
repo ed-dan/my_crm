@@ -35,21 +35,24 @@ class LeadController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit(Lead $lead)
     {
-        $lead = Lead::find($id);
-        $product = Product::find($lead->product_id);
-        return view('leads.edit', ['lead' => $lead, 'product' => $product]);
+        return view('leads.edit', [
+            'lead' => $lead, 
+            'product' => Product::find($lead->product_id)
+        ]);
     }
 
-    public function createDeal(Lead $lead)
+    public function openDeal(Lead $lead)
     {
+        date_default_timezone_set('Europe/Istanbul');
+
         $manager_id = auth()->id();
         EmployeeLead::create([
             "employee_id" => $manager_id,
             "lead_id" => $lead->id
         ]);
-        date_default_timezone_set('Europe/Istanbul');
+    
         $date = date('Y-m-d h:i:s', time());
         $deal = Deal::create([
             "stage_id" => 1,
@@ -60,8 +63,9 @@ class LeadController extends Controller
             "amount" => 0,
             "status_id" => 3
         ]);
+        
         $formFields = \request()->validate([
-            'name' => 'required',
+            'name' => 'string',
             'email' => ['required', 'email', Rule::unique('employees', 'email')->ignore($lead->id)],
             'phone' => ['required', Rule::unique('employees', 'phone')->ignore($lead->id)],
         ]);

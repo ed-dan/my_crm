@@ -63,6 +63,7 @@ class DealController extends Controller
             'address' => ['required'],
             "products" => ""
         ]);
+        
         $counter = 0;
         $keys = array();
         $values = array();
@@ -252,39 +253,3 @@ class DealController extends Controller
     }
 }
 
-//        switch (intval(\request()->status)) {
-//            case 2:
-//                Deal::searcher('city', $deals, $employees, $products, $stages, $leads);
-//                break;
-//            case 3:
-//                Deal::searcher('name', $deals, $employees, $products, $stages, $leads);
-//                break;
-//            case 4:
-//                Deal::searcher('title', $deals, $employees, $products, $stages, $leads);
-//                break;
-//        }
-//$deals->where('city', 'like', '%' . request('search') . '%')
-//return view('employees.index', [ 'name' => '/', 'title' => 'employees',
-//    'employees' => Employee::sortable()->latest()->orderBy('name')->filter(request([ 'search']))
-//        ->paginate(10),
-//    'positions' => Position::all()
-//]);
-//    public function editProduct()
-//    {
-//        $deals_data = DB::table("tasks")
-//            ->join("deals", "deals.task_id", "=", "tasks.deal_id")
-//            ->get();
-//
-//        return view('deals.edit-product', [
-//            "products" => Product::all()
-//        ]);
-//    }
-//    public function autocomplete2(Request $request)
-//    {
-//        $data = City::select("name as value", "id")
-//            ->where('name', 'LIKE', '%'.$request->get('street'). '%')
-//            ->limit(5)
-//            ->get();
-//        return response()->json($data);
-//    }
-//->join("stages", "stages.id", "=", "deals.stage_id")
