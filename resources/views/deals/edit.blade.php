@@ -15,7 +15,7 @@
 {{--            <h3>About Product</h3>--}}
             <div>
 
-                {{$product->description}}
+                {{$deal->lead->products[0]->description}}
                 @php
 
                     //                $about_product = $product->description;
@@ -61,7 +61,7 @@
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control"
                                                            placeholder="Enter your name"
-                                                           value="{{ $product->title }}" disabled>
+                                                           value="{{ $deal->lead->products[0]->title }}" disabled>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -71,9 +71,9 @@
                                                     <div class="input-container">
                                                         <input type="text" class="form-control col-sm-10"
                                                                placeholder="Enter your name"
-                                                               value="{{ $product->price }} $" disabled>
+                                                               value="{{ $deal->lead->products[0]->price }} $" disabled>
                                                         <input class="form-control mr-0" id="count"
-                                                               type="number" name="products" value="1">
+                                                               type="number" name="count{{$deal->lead->products->first()->id}}" value="1">
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,15 +142,7 @@
                                                     }
                                                 }
                                             </script>
-                                            <div class="form-group row">
-                                                <label for="name"
-                                                       class="col-sm-2 col-form-label">Weight</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control"
-                                                           placeholder="Enter your name"
-                                                           value="{{ $product->weight }} kilogram" disabled>
-                                                </div>
-                                            </div>
+                
 
                                             <h5 class="mt-3">
                                                 Logistic data:
@@ -183,9 +175,11 @@
                                                 <div class="" style="width: 700px">
                                                     <table class="table m-0">
                                                         <tbody>
+                                                            
                                                         @foreach($products as $prod)
+                                                    
                                                             <tr>
-                                                                @if($prod->id == $product->id)
+                                                                @if($deal->lead->products->first()->id == $prod->id)
                                                                 @else
                                                                     <td>
                                                                         <label class="form-check-label"
@@ -209,7 +203,7 @@
                                                                                name="id{{$prod->id}}">
                                                                     </td>
                                                                 @endif
-                                                            </tr>
+                                                            </tr> 
                                                         @endforeach
                                                         </tbody>
                                                     </table>
@@ -217,7 +211,7 @@
                                             </div>
                                             <div class="card-footer p">
                                                 <button class="btn btn-default">
-                                                    <a href="/" class="text-black"> Back </a>
+                                                    <a href="{{ url()->previous() }}" class="text-black"> Back </a>
                                                 </button>
                                                 <button class="btn btn-default ml-5" style="width: 120px;">
                                                     <a href="{{route("task.create", $deal->id)}}" class="text-black">

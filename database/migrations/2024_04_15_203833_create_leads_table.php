@@ -20,9 +20,9 @@ return new class extends Migration
             $table->unsignedBigInteger("phone")->nullable();
             $table->string("source");
             $table->unsignedBigInteger("employee_id")->nullable();
-            $table->unsignedBigInteger("product_id")->nullable();
             $table->index('employee_id','employee_lead_idx');
-            $table->index('product_id','product_lead_idx');
+            //$table->unsignedBigInteger("product_id")->nullable();
+            //$table->index('product_id','lead_product_lead_idx');
             $table->timestamps();
         });
 
@@ -31,11 +31,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('leads');
         });
-        Schema::table('leads', function (Blueprint $table) {
-            $table->foreign('product_id', 'product_lead_fk')
-                ->references('id')
-                ->on('products');
-        });
+        // Schema::table('leads', function (Blueprint $table) {
+        //     $table->foreign('product_id', 'product_lead_fk')
+        //         ->references('id')
+        //         ->on('products');
+        // });
         Schema::table('leads', function (Blueprint $table) {
             $table->softDeletes();
         });

@@ -158,11 +158,11 @@
                                     <form action="">
                                         <button type="button" class="btn btn-block btn-outline-warning ">
                                             @if($task->deal->stage_id == 2)
-                                                <a class="text-black" href={{ route('deal.about', $task->deal->id)}} >
+                                                <a class="text-black" href={{ route('deal.about', $task->deal_id)}} >
                                                     <ion-icon name="arrow-forward-outline"></ion-icon>
                                                 </a>
                                             @elseif($task->deal->stage_id == 3)
-                                                <a class="text-black" href={{ route('deal.about', $task->deal->id)}} >
+                                                <a class="text-black" href={{ route('deal.about', $task->deal_id)}} >
                                                     <ion-icon name="arrow-forward-outline"></ion-icon>
                                                 </a>
                                             @endif
@@ -187,20 +187,3 @@
         components: {Index}
     }
 </script>
-{{--                                <form action="">--}}
-{{--                                    <button type="button" class="btn btn-block btn-default show-alert-delete-box">--}}
-{{--                                        <a href="">--}}
-{{--                                            <ion-icon name="call-outline"></ion-icon>--}}
-{{--                                        </a>--}}
-{{--                                    </button>--}}
-{{--                                </form>--}}
-{{--                                <link rel="stylesheet" href="/css/app.css">--}}
-{{--                                <form method="POST" action="/">--}}
-{{--                                    @csrf--}}
-{{--                                    <input name="_method" type="hidden" value="DELETE">--}}
-{{--                                    <button type="submit"--}}
-{{--                                            class="btn btn-block btn-outline-warning show-alert-delete-box"--}}
-{{--                                            data-toggle="tooltip" title='Delete'>--}}
-{{--                                        <ion-icon name="arrow-forward-outline"></ion-icon>--}}
-{{--                                    </button>--}}
-{{--                                </form>--}}

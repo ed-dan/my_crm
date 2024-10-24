@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Lead;
+use App\Models\LeadProduct;
 use function Symfony\Component\Translation\t;
 
 /**
@@ -25,7 +27,18 @@ class LeadFactory extends Factory
             "email" => $this->faker->email(),
             "phone" => "380" . $operators[rand(0,3)]. rand(1111111,9999999),
             "source" =>  $lead_source[rand(0,4)],
-            "product_id" => rand(1,4),
+            //"product_id" => rand(1,4),
         ];
+    }
+
+    public function configure()
+    {
+    return $this->afterCreating(function (Lead $lead) {
+        
+        LeadProduct::create([
+            "lead_id" => $lead->id,
+            "product_id" => rand(1,4),
+        ]);
+    });
     }
 }

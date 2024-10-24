@@ -20,9 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger("identifier")->unique();
             $table->unsignedBigInteger("company_id");
             $table->unsignedBigInteger("category_id");
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->unsignedBigInteger("price");
-            $table->unsignedBigInteger("weight")->nullable();
 
             $table->timestamps();
             $table->index('company_id','product_company_idx');

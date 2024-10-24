@@ -36,9 +36,8 @@ class TaskController extends Controller
         ]);
     }
 
-    public function create($id)
+    public function create(Deal $deal)
     {
-        $deal = Deal::find($id);
         return view("tasks.create", [
             "stages" => Stage::all(),
             "deal" => $deal,
@@ -46,16 +45,16 @@ class TaskController extends Controller
         ]);
     }
 
-    public function store(StoreTaskRequest $request, TaskService $taskService, $deal_id)
+    public function store(StoreTaskRequest $request, TaskService $taskService, Deal $deal)
     {
-        $taskService->store($request->validated(), $deal_id);
-        return redirect()->route("task.success", $deal_id);
+        $taskService->store($request->validated(), $deal);
+        return redirect()->route("task.success", $deal);
     }
 
-    public function success($id)
+    public function success(Deal $deal)
     {
         return view("tasks.success", [
-            "deal" => Deal::find($id),
+            "deal" => $deal,
             "stages" => DB::table("stages")->get()
         ]);
     }

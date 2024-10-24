@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\EmployeeLead;
-use App\Models\Position;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-class PositionSeeder extends Seeder
+use App\Models\Street;
+class StreetSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,17 +14,17 @@ class PositionSeeder extends Seeder
      */
     public function run()
     {
-        Position::create([
+        Street::create([
             "id" => 1,
-            "title" => "Admin"
+            "street_name" => "Post office #20 in the city of Mykolaiv."
         ]);
-        Position::create([
+        Street::create([
             "id" => 2,
-            "title" => "Analytical Expert"
+            "street_name" => "Post office #120 in the city of Kharkiv."
         ]);
-        Position::create([
+        Street::create([
             "id" => 3,
-            "title" => "Manager"
+            "street_name" => "Post office #2 in the city of Kharkiv."
         ]);
     }
 }

@@ -13,17 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('deal_products', function (Blueprint $table) {
+        Schema::create('lead_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('deal_id');
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('quantity');
-            $table->index('deal_id','deal_product_deal_idx');
-            $table->index('product_id','deal_product_product_idx');
 
-            $table->foreign('deal_id','deal_product_deal_fk')
-                ->on('deals')->references('id');
-            $table->foreign('product_id','deal_product_product_fk')
+            $table->unsignedBigInteger('lead_id');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('quantity')->nullable();
+            $table->index('lead_id','lead_product_lead_idx');
+            $table->index('product_id','lead_product_product_idx');
+
+            $table->foreign('lead_id','lead_product_lead_fk')
+                ->on('leads')->references('id');
+            $table->foreign('product_id','lead_product_product_fk')
                 ->on('products')->references('id');
 
             $table->timestamps();
@@ -37,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deal_products');
+        Schema::dropIfExists('lead_products');
     }
 };

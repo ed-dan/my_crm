@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string("priority");
             $table->string("title");
             $table->string("subject");
-            $table->string("notes_id");
+            $table->string("notes_id")->nullable();
             $table->dateTime("deadline");
             $table->unsignedBigInteger("deal_id");
             $table->unsignedBigInteger("employee_id");

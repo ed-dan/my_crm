@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Collection;
 
 class Task extends Model
 {
@@ -39,16 +40,12 @@ class Task extends Model
         return $position_id == User::MANAGER_ID ? $query->where("employee_id", "=", auth()->id()) : $query;
     }
 
-
-    public function getCurrentTasks($tasks): array
+    public function getCurrentTasks(Collection $tasks): Collection
     {
-        $current_tasks = array();
-        foreach ($tasks as $task) {
-            $current_day = explode(" ", $task->deadline);
-            $current_day = substr($current_day[0], -2);
-            if (intval($current_day) == intval(date("d")))
-                $current_tasks[] = $task;
-        }
+        $current_tasks = $tasks->filter( function ($item, $key) {
+            return (explode(" ", $item->deadline)[0]) == date("Y-m-d");
+        });
+
         return $current_tasks;
     }
 }

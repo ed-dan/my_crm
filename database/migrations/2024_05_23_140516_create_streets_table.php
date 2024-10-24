@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("city_id")->nullable();
             $table->string("street_name");
-            $table->string("number");
+            $table->string("number")->nullable();
             $table->timestamps();
         });
         Schema::table('streets', function (Blueprint $table) {

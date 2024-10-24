@@ -49,7 +49,7 @@
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control"
                                                        placeholder="Enter your name"
-                                                       value="{{$lead->name}}" disabled>
+                                                       value="{{$deal->lead->name}}" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row ">
@@ -64,7 +64,7 @@
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control"
                                                        placeholder="Enter your name"
-                                                       value=" {{$deal->amount}} $" disabled>
+                                                       value=" {{$deal->getDealAmount()}} $" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row">

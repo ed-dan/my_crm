@@ -50,6 +50,10 @@
                                                     <option name="status" value="4">Changed his mind</option>
                                                     <option name="status" value="5">Disloyal customer</option>
                                                 </select>
+
+                                                @error('status')
+                                                    <p class="text-red-500 text-xs mt-1">Don't foget to choose the reason </p>
+                                                    @enderror
                                             </div>
                                             <div class="p-4">
 

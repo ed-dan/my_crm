@@ -36,4 +36,14 @@ class Lead extends Model
     }
 
 
+    public function getSimilarProducts()
+    {
+        return Product::where("category_id", $this->products->first()->category_id)->get();
+    }
+
+    public function products() 
+    {
+        return $this->belongsToMany(Product::class, "lead_products", "lead_id", "product_id")->withPivot("quantity");
+    }
+
 }

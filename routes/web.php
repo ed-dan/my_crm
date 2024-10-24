@@ -34,10 +34,12 @@ Route::middleware("auth")->group(function (){
 
     Route::get('/', [HomeController::class, 'homePage'])->name('home');
 
+
     Route::prefix("leads")->group(function () {
         Route::get('/', [LeadController::class, 'index']);
         Route::get('/import', [LeadController::class, 'import'])->name('lead.import');
         Route::get('/{lead}/edit', [LeadController::class, 'edit'])->name('lead.edit');
+        Route::patch('/{lead}', [LeadController::class, 'update'])->name('lead.update');
         Route::patch('/{lead}', [LeadController::class, 'openDeal'])->name('lead.update');
     });
 
@@ -81,4 +83,3 @@ Route::middleware("auth")->group(function (){
 
 Auth::routes();
 
-//Route::get('/reg',[DealController::class, 'reg'])->name('reg');

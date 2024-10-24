@@ -34,7 +34,6 @@ class CompanyController extends Controller
             'website' => '',
             "company_phone  " => "",
             "description" => ""
-            //"subject" => "required"
         ]);
         Company::create($formFields,["company_phone" => request()->company_phone]);
         return redirect('/companies');

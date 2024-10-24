@@ -103,10 +103,10 @@
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control"
                                                            placeholder="Enter your name"
-                                                           value="{{$product->title}}" disabled>
+                                                           
+                                                           value="{{$lead->products->first()->title}}" disabled>
                                                 </div>
                                             </div>
-
                                             <div class="card-footer p">
                                                 <button class="btn btn-default">
                                                     <a href="/" class="text-black"> Back </a>

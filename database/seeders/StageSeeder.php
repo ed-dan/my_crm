@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\EmployeeLead;
-use App\Models\Position;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Stage;
 
-class PositionSeeder extends Seeder
+class StageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,17 +15,21 @@ class PositionSeeder extends Seeder
      */
     public function run()
     {
-        Position::create([
+        Stage::create([
             "id" => 1,
-            "title" => "Admin"
+            "title" => "Awareness"
         ]);
-        Position::create([
+        Stage::create([
             "id" => 2,
-            "title" => "Analytical Expert"
+            "title" => "Interest"
         ]);
-        Position::create([
+        Stage::create([
             "id" => 3,
-            "title" => "Manager"
+            "title" => "Decision"
+        ]);
+        Stage::create([
+            "id" => 4,
+            "title" => "Success"
         ]);
     }
 }

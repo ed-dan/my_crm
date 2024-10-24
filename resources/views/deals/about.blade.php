@@ -97,7 +97,7 @@
 
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter your name"
-                                                       value="{{$deal->user_name}}" disabled>
+                                                       value="{{$deal->employee->name}}" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row ml-5">
@@ -106,7 +106,7 @@
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter address" name="address" id="search"
-                                                       value="{{$deal->user_email}}" disabled>
+                                                       value="{{$deal->employee->email}}" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row ml-5">
@@ -115,7 +115,7 @@
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter address" name="address" id="search"
-                                                       value="{{$deal->stage_title}}" disabled>
+                                                       value="{{$deal->stage->title}}" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row ml-5 ">
@@ -128,7 +128,7 @@
                                                     <input type="text" class="form-control" style="border: none;"
                                                            placeholder="Enter city name" name="city"
                                                            id="tags"
-                                                           value="{{$task_deadline[0]->deadline}}" disabled>
+                                                           value="{{$task_deadline}}" disabled>
                                                 </div>
                                             @else
                                                 <label for="name"
@@ -174,18 +174,18 @@
                                             <label for="name"
                                                    class="col-sm-1 col-form-label"> Reason of rejection</label>
                                             <div class="col-sm-6">
-                                                @if($deal->status_id == 1 )
+                                                @if($deal->status->id == 1 )
                                                     <input type="text" class="form-control" style="border: none;"
                                                            placeholder="Closed successfully" name="address" id="search"
                                                            value="" disabled>
-                                                @elseif($deal->status_id == 2 )
+                                                @elseif($deal->status->id == 2 )
                                                     <input type="text" class="form-control" style="border: none;"
                                                            placeholder="Not Closed" name="address" id="search"
                                                            value="" disabled>
                                                 @else
                                                     <input type="text" class="form-control" style="border: none;"
                                                            placeholder="Enter address" name="address" id="search"
-                                                           value="{{$deal->status}}" disabled>
+                                                           value="{{$deal->status->status}}" disabled>
                                                 @endif
                                             </div>
                                         </div>
@@ -245,7 +245,7 @@
                                             <div class="col-sm-4">
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter your name"
-                                                       value="{{$deal->name}}" disabled>
+                                                       value="{{$deal->lead->name}}" disabled>
                                             </div>
                                             <label for="name"
                                                    class="col-sm-1 col-form-label"> Product list</label>
@@ -261,7 +261,7 @@
                                             <div class="col-sm-4">
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter your name"
-                                                       value="+{{$deal->phone}}" disabled>
+                                                       value="+{{$deal->lead->phone}}" disabled>
                                             </div>
                                             <label for="name"
                                                    class="col-sm-1 col-form-label"> Amount</label>
@@ -277,7 +277,7 @@
                                             <div class="col-sm-4">
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter your name"
-                                                       value="{{$deal->email}}" disabled>
+                                                       value="{{$deal->lead->email}}" disabled>
                                             </div>
                                             <label for="name"
                                                    class="col-sm-1 col-form-label"> Close Date</label>
@@ -302,7 +302,7 @@
                                             <div class="col-sm-4">
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter your name"
-                                                       value="{{$deal->source}}" disabled>
+                                                       value="{{$deal->lead->source}}" disabled>
                                             </div>
                                             <label for="name"
                                                    class="col-sm-1 col-form-label"> Close Time</label>
@@ -331,7 +331,7 @@
                                             <div class="col-sm-4">
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter address" name="address" id="search"
-                                                       value="{{$deal->stage_title}}" disabled>
+                                                       value="{{$deal->stage->title}}" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row mt-4 ml-5">
@@ -347,7 +347,7 @@
                                             <div class="col-sm-5">
                                                 <input type="text" class="form-control" style="border: none;"
                                                        placeholder="Enter address" name="address" id="search"
-                                                       value="{{$deal->user_name}}" disabled>
+                                                       value="{{$deal->employee->name}}" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -379,7 +379,8 @@
                                             Shopping cart:
                                         </h5>
                                     </div>
-                                    @if($product_list == "")
+                                    <div class="mt-3">
+                                        @if($product_list == "")
                                         <hr>
                                         <input type="text" class="form-control ml-4" style="border: none;"
                                                placeholder="Empty" disabled>
@@ -411,7 +412,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($products as $product)
+                                            @foreach($deal->products as $product)
                                                 @php
                                                     @endphp
                                                 <tr>
@@ -439,29 +440,18 @@
                                                         <h6 class="mt-3">{{$product->price . ",00 $"}}</h6>
                                                     </td>
                                                     <td>
-                                                        @php
-                                                            $product_count = "";
-                                                            if(strlen($deal->products) > 0){
-                                                                $arr = explode(" ",$deal->products);
-                                                              foreach ($arr as $a){
-                                                                $a = explode("*",$a);
-                                                                if($product->id == $a[0]){
-                                                                    $product_count = $a[1];
-                                                                }
-                                                            }
-                                                            }
-                                                        @endphp
-                                                        <h6 class="mt-3" style="text-align: center;">{{$product_count}}
+                                                        <h6 class="mt-3" style="text-align: center;">{{$product->pivot->quantity}}
                                                             x</h6>
                                                     </td>
                                                     <td>
-                                                        <h6 class="mt-3">{{$product->price* $product_count. ",00 $"}}</h6>
+                                                        <h6 class="mt-3">{{$product->price * $product->pivot->quantity . ",00 $"}}</h6>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
                                     @endif
+                                    </div>
                                 @endguest
                             </div>
                         </div>

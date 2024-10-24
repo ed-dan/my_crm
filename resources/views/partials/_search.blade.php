@@ -11,7 +11,6 @@
                                 <option name="status" value="city">By City</option>
                                 <option name="status" value="name">By Name</option>
                                 <option name="status" value="title">By Stage</option>
-                                <option name="status" value="5">By Owner</option>
                             </select>
                             <button type="submit" class="btn btn-primary mr-2">Search</button>
                             Sort by:

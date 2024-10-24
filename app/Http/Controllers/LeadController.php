@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
-
+use App\Http\Requests\OpenDealRequest;
+use App\Services\DealService;
 class LeadController extends Controller
 {
     public function import()
@@ -37,41 +38,12 @@ class LeadController extends Controller
 
     public function edit(Lead $lead)
     {
-        return view('leads.edit', [
-            'lead' => $lead, 
-            'product' => Product::find($lead->product_id)
-        ]);
+        return view('leads.edit', compact("lead"));
     }
 
-    public function openDeal(Lead $lead)
+    public function update(Lead $lead, OpenDealRequest $request, DealService $dealService)
     {
-        date_default_timezone_set('Europe/Istanbul');
-
-        $manager_id = auth()->id();
-        EmployeeLead::create([
-            "employee_id" => $manager_id,
-            "lead_id" => $lead->id
-        ]);
-    
-        $date = date('Y-m-d h:i:s', time());
-        $deal = Deal::create([
-            "stage_id" => 1,
-            "products" => $lead->product_id,
-            "employee_id" => $manager_id,
-            "lead_id" => $lead->id,
-            "closing_date" => $date,
-            "amount" => 0,
-            "status_id" => 3
-        ]);
-        
-        $formFields = \request()->validate([
-            'name' => 'string',
-            'email' => ['required', 'email', Rule::unique('employees', 'email')->ignore($lead->id)],
-            'phone' => ['required', Rule::unique('employees', 'phone')->ignore($lead->id)],
-        ]);
-        $lead->update(["employee_id" => $manager_id]);
-        $lead->update($formFields, [
-        ]);
+        $deal = $dealService->openDeal($request->validated(), $lead);
         return redirect()->route("deal.edit", [$deal->id]);
     }
 

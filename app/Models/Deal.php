@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Database\Eloquent\Builder;
 
 class Deal extends Model
 {
@@ -13,7 +14,10 @@ class Deal extends Model
     use HasFactory;
     use Sortable;
 
-    protected array $sortable = ['city', 'position_id', 'created_at', 'email', 'salary'];
+    private string $productList = "";
+    private int $currentAmount = 0;
+
+    protected array $sortable = ['city', 'position_id', 'created_at', 'email'];
 
     public function scopeFilter($query, array $filters)
     {
@@ -44,6 +48,29 @@ class Deal extends Model
             return $query->whereDay("closing_date", substr($period, 1));
     }
 
+    public function scopeWithQueryString($query, $request) 
+    {
+        if ($request->hasAny(["status", "search"])) {
+            if($request->query("status") == "city"){
+                $query = $query->where($request->query("status"), "like", "%" . $request->query("search") . "%");
+            }
+            if($request->query("employee")){
+                $query = $query->where("employee_id", $request->query("employee"));
+            }
+            if($request->query("status") == "name"){
+                $query = $query->whereHas("lead", function (Builder $leadQuery) use ($request) {
+                    $leadQuery->where("name", "like", "%" . $request->query("search") . "%");
+                });
+            }
+            if($request->query("status") == "title"){
+                $query = $query->whereHas("status", function (Builder $statusQuery) use ($request) {
+                    $statusQuery->where("title", "like", "%" . $request->query("search") . "%");
+                });
+            }
+        }
+        return $query->orderBy($request->query("sort", "closing_date"), $request->query("direction", "desc"));
+    }
+
     public function employee()
     {
         return $this->belongsTo(User::class, "employee_id", "id");
@@ -54,10 +81,9 @@ class Deal extends Model
         return $this->belongsTo(Status::class, "status_id", "id");
     }
 
-    public function products()
+    public function products() 
     {
-        return $this->belongsToMany(Product::class, 'deal_products',
-            'product_id', 'deal_id');
+        return $this->belongsToMany(Product::class, "deal_products", "deal_id", "product_id")->withPivot("quantity");
     }
 
     public function stage()
@@ -103,16 +129,20 @@ class Deal extends Model
         ]);
     }
 
-    public function countDealAmount(array $product_list)
+    public function getProductList() : string | null 
     {
-        foreach ($product_list as $product_item) {
-            $amount_item = explode("*", $product_item);
-            $product = DB::table("products")
-                ->where("id", "=", $amount_item[0])
-                ->get();
-            dd($product);
+        foreach ($this->products as $product) { 
+            $this->productList .= $product->pivot->quantity . "x " .$product->title . ",\n";
         }
-
-
+        return strlen($this->productList) ? $this->productList : "Empty" ;
     }
+
+    public function getDealAmount() : int
+    {
+        foreach($this->lead->products as $leadProduct){
+            $this->currentAmount += $leadProduct->pivot->quantity * $leadProduct->price;
+        }
+        return $this->currentAmount;
+    }
+
 }

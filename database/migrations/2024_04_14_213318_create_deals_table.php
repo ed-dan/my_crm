@@ -16,14 +16,13 @@ return new class extends Migration
         Schema::create('deals', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("task_id")->nullable();
-            $table->unsignedBigInteger("stage_id");
+            $table->unsignedBigInteger("stage_id")->default(2);
             $table->unsignedBigInteger("note_id")->nullable();
             $table->unsignedBigInteger("employee_id");
             $table->unsignedBigInteger("lead_id");
-            $table->unsignedBigInteger("amount");
+            $table->unsignedBigInteger("amount")->default(0);
             $table->string("city")->nullable();
             $table->string("address")->nullable();
-            $table->string("products");
             $table->unsignedBigInteger("status_id");
             $table->dateTime("closing_date");
             $table->index('note_id','note_deal_idx');

@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->string('address');
+            $table->text('description')->nullable();
+            $table->string('address')->nullable();
             $table->unsignedBigInteger("product_id")->nullable();
-            $table->string('website');
+            $table->string('website')->nullable();
             $table->string('company_phone');
             $table->timestamps();
             $table->index('product_id','product_company_idx');
