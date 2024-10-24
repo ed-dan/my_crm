@@ -6,25 +6,22 @@ use App\Models\Deal;
 use App\Models\DealEmployee;
 use App\Models\DealProduct;
 use App\Models\Lead;
+use App\Models\Task;
 use App\Models\Position;
 use App\Models\Product;
 use App\Models\Stage;
 use App\Models\Street;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateDealRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Services\DealService;
 
 class DealController extends Controller
 {
     public function __construct()
     {
-
-    }
-
-    public function reg()
-    {
-        return view('reg', ['positions' => Position::all()]);
     }
 
     public function autocomplete(Request $request)
@@ -36,19 +33,30 @@ class DealController extends Controller
         return response()->json($data);
     }
 
-    public function edit($id)
+    public function index()
     {
-        $deal = Deal::find($id);
-        $stages = DB::table("stages")->get();
-        $deal->update([
-            'stage_id' => 2
+        return view("deals.index", [
+            'position' => auth()->user()->position->title,
+            'deals' => Deal::with("lead", "stage", "products")->withQueryString(request())->simplePaginate(8),
+            'employees' => User::where("position_id", User::MANAGER_ID)->get(),
+            'products' => DB::table("products")->get(),
+            'stages' => DB::table("stages")->get(),
         ]);
-        $product = Product::find($deal->products);
-        $products = DB::table("products")
-            ->where("category_id", "=", $product->category_id)
-            ->get();
+    }
+
+
+    public function edit(Deal $deal)
+    {   
         return view('deals.edit', [
             'deal' => $deal,
+            'products' => $deal->lead->getSimilarProducts(),
+            "stages" => DB::table("stages")->get()
+        ]);
+    }
+
+    public function update(Deal $deal, UpdateDealRequest $request, DealService $dealService)
+    {       
+        $dealService->update($deal, $request);
             'product' => $product,
             'products' => $products,
             "stages" => $stages
@@ -97,158 +105,46 @@ class DealController extends Controller
         return redirect()->route("deal.show", $deal->id);
     }
 
-    public function confirm($id)
+    public function confirm(Deal $deal, DealService $dealService)
     {
-        $deal = Deal::find($id);
-        $lead = Lead::find($deal->lead_id);
-        $stages = DB::table("stages")->get();
-        $products_list = explode(" ", $deal->products);
-        $product_names = "";
-        $deal_amount = array();
-        if (end($products_list) == "")
-            array_pop($products_list);
-        foreach ($products_list as $item) {
-            $product_params = explode("*", $item);
-            $product = DB::table("products")
-                ->where("id", "=", $product_params[0])
-                ->get();
-            $temp_amount = $product[0]->price * $product_params[1];
-            $deal_amount[] = $temp_amount;
-            DealProduct::create([
-                "deal_id" => $id,
-                "product_id" => $product[0]->id
-            ]);
-            $product_names .= $product_params[1] . "x " . $product[0]->title . " - " . $temp_amount . " $,\n";
-        }
-        $deal->update([
-            "amount" => array_sum($deal_amount),
-        ]);
+        $dealService->confirm($deal);
         return view('deals.confirm', [
             'deal' => $deal,
-            "stages" => $stages,
-            'product_names' => ltrim($product_names),
-            'lead' => $lead
+            "stages" => DB::table("stages")->get(),
+            'product_names' => $deal->getProductList(),
         ]);
     }
 
-    public function closeDeal($deal)
+    public function closeDeal(Deal $deal, DealService $dealService)
     {
-        $manager_id = Auth::user()->getAuthIdentifier();
-        DealEmployee::create([
-            "employee_id" => $manager_id,
-            "deal_id" => Deal::find($deal)->id
-        ]);
-        $status = Deal::find($deal);
-        $status->update([
-            "status_id" => 1,
-            "stage_id" => 4
-        ]);
+        $dealService->closeDeal($deal);
         return view('deals.close-deal');
     }
 
-    public function rejectDeal($id)
+    public function rejectDeal(Deal $deal)
     {
-        $deal = Deal::find($id);
-        $stages = DB::table("stages")->get();
-        return view("deals.reject", ['deal' => $deal, "stages" => $stages]);
+        return view("deals.reject", [
+            "deal" => $deal,
+            "stages" => DB::table("stages")->get()
+        ]);
     }
 
-    public function rejectAndClose(Deal $deal)
+    public function rejectAndClose(Deal $deal, DealService $dealService)
     {
-        $formFields = \request()->validate([
-            'status' => ['required'],
-        ]);
-        $deal->update([
-            "status_id" => $formFields['status']
-        ]);
+        $dealService->reject($deal);
         return redirect()->route("home");
     }
 
-    public function index()
+    public function aboutDeal(Deal $deal)
     {
-        $direction = "desc";
-        $sort_by = "closing_date";
-        $manager_id = Auth::user()->getAuthIdentifier();
-        $employees = DB::table("users");
-        $products = DB::table("products")->get();
-        $stages = DB::table("stages")->get();
-        if (\request()->direction)
-            $direction = \request()->direction;
-        if (\request()->sort)
-            $sort_by = \request()->sort;
-        $leads = Lead::sortable()->latest()->filter(request(['search']))->paginate(10);
-        $deals = DB::table("deals")
-            ->join("leads", "leads.id", "=", "deals.lead_id")
-            ->join("stages", "stages.id", "=", "deals.stage_id")
-            ->select("deals.*", "leads.name", "leads.phone", "stages.title",)
-            ->orderBy('deals.' . $sort_by, $direction);
-        $position = Position::find(Auth::user()->position_id)->title;
-        if ($position === "Manager") {
-            $deals->where("deals.employee_id", "=", $manager_id);
-            $employees = $employees->get();
-        }
-        if ($position === "Admin" or $position === "Analytical expert")
-            $employees = $employees->where("users.id", "!=", $manager_id)->get();
-        if (\request()->status) {
-            $deal_query = $deals->where(\request()->status, 'like', '%' . request('search') . '%')
-                ->paginate(8);
-
-        } elseif (\request()->employee) {
-            $deal_query = $deals->where("deals.employee_id", "=", \request()->employee)->paginate(8);
-
-        } else {
-            $deal_query = $deals->paginate(8);
-        }
-        return view("deals.index", [
-            'position' => $position,
-            'deals' => $deal_query,
-            'employees' => $employees,
-            'products' => $products,
-            'stages' => $stages,
-            'leads' => $leads
-        ]);
-    }
-
-    public function aboutDeal($id)
-    {
-        $product_list = "";
-        $deal = DB::table("deals")
-            ->join("leads", "leads.id", "=", "deals.lead_id")
-            ->join("stages", "stages.id", "=", "deals.stage_id")
-            ->join("users", "users.id", "=", "deals.employee_id")
-            ->join("statuses", "statuses.id", "=", "deals.status_id")
-            ->select("deals.*", "stages.title as stage_title", "users.name as  user_name",
-                "users.email as user_email", "users.id as user_id", "leads.name", "leads.phone",
-                "leads.id as lead_id", "leads.email", "leads.source", "leads.created_at as lead_created_at",
-                "statuses.id as status_id", "statuses.status")
-            ->where("deals.id", "=", $id)
-            ->get();
-        if ($deal[0]->task_id != 0) {
-            $task_deadline = DB::table("tasks")
-                ->where("tasks.deal_id", "=", $deal[0]->id)
-                ->select("tasks.deadline")
-                ->get();
-        }
-        $products = DB::table("deal_products")
-            ->where("deal_products.deal_id", "=", $id)
-            ->join("products", "products.id", "=", "deal_products.product_id")
-            ->get();
-        foreach ($products as $product) {
-            $product_list .= $product->title . ", ";
-        }
-        $user = User::find(Auth::user()->getAuthIdentifier());
-        $categories = DB::table("categories")->get();
-        $companies = DB::table("companies")->get();
-        $stages = DB::table("stages")->get();
         return view("deals.about", [
-            "user" => $user,
-            "deal" => $deal[0],
-            "task_deadline" => $task_deadline ?? null,
-            "stages" => $stages,
-            "products" => $products,
-            "product_list" => $product_list,
-            "categories" => $categories,
-            "companies" => $companies
+            "deal" => $deal,
+            "user" => $deal->employee,
+            "task_deadline" => $deal->tasks->last()->deadline ?? null,
+            "stages" => DB::table("stages")->get(),
+            "product_list" => $deal->getProductList(),
+            "categories" => DB::table("categories")->get(),
+            "companies" => DB::table("companies")->get()
         ]);
     }
 }
