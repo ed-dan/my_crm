@@ -57,51 +57,6 @@ class DealController extends Controller
     public function update(Deal $deal, UpdateDealRequest $request, DealService $dealService)
     {       
         $dealService->update($deal, $request);
-            'product' => $product,
-            'products' => $products,
-            "stages" => $stages
-        ]);
-    }
-
-    public function update(Deal $deal)
-    {
-        $stages = DB::table("stages")->get();
-        $formFields = \request()->validate([
-            'city' => ['required'],
-            'address' => ['required'],
-            "products" => ""
-        ]);
-        
-        $counter = 0;
-        $keys = array();
-        $values = array();
-        $str = "";
-        while ($counter != count(\request()->request->all())) {
-            if (\request()->request->get("id" . $counter)) {
-                array_push($keys, \request()->request->get("id" . $counter));
-            }
-            if (\request()->request->get("count" . $counter)) {
-                array_push($values, \request()->request->get("count" . $counter));
-            }
-            $end_keys = end($keys);
-            $end_values = end($values);
-            if ($end_keys and $end_values) {
-                $str .= $end_keys . "*" . $end_values . ",";
-            }
-            $counter++;
-        }
-        $unique = array_unique(explode(",", $str));
-        array_pop($unique);
-        $unique = implode(" ", $unique);
-        if (count($formFields) > 2) {
-            $arr = $deal->products . "*" . $formFields['products'] . " " . $unique;
-        }
-        $deal->update([
-            "stage_id" => 3,
-            "city" => $formFields['city'],
-            "address" => $formFields['address'],
-            "products" => $arr,
-        ]);
         return redirect()->route("deal.show", $deal->id);
     }
 

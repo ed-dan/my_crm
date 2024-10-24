@@ -40,7 +40,7 @@ Route::middleware("auth")->group(function (){
         Route::get('/import', [LeadController::class, 'import'])->name('lead.import');
         Route::get('/{lead}/edit', [LeadController::class, 'edit'])->name('lead.edit');
         Route::patch('/{lead}', [LeadController::class, 'update'])->name('lead.update');
-        Route::patch('/{lead}', [LeadController::class, 'openDeal'])->name('lead.update');
+        //Route::patch('/{lead}', [LeadController::class, 'openDeal'])->name('lead.update');
     });
 
     Route::prefix("deals")->group(function () {
