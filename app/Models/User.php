@@ -12,6 +12,7 @@ class User extends Authenticatable
 {
     use  HasFactory, Notifiable;
 
+
     public const ADMIN_ID = 1;
     public const ANALYTIC_ID = 2;
     public const MANAGER_ID = 3;
@@ -42,6 +43,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'position_id',
     ];
 
     /**

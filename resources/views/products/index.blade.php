@@ -42,6 +42,7 @@
                                                     </div>
                                                 </form>
                                             </div>
+                                            @if(auth()->user()->position_id == App\Models\User::ADMIN_ID)
                                             <div style="float: right">
                                                 Add new Product
                                                 <button type="submit" class=" button mr-3 ml-3">
@@ -50,6 +51,7 @@
                                                     </a>
                                                 </button>
                                             </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

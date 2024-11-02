@@ -385,7 +385,8 @@
                 </li>
             </h4>
 
-            @if(\Illuminate\Support\Facades\Auth::user()->position_id == 1)
+            @if(auth()->user()->position_id == App\Models\User::ADMIN_ID or 
+            auth()->user()->position_id == App\Models\User::ANALYTIC_ID)
                 <h4>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('product.index') }}">Products</a>

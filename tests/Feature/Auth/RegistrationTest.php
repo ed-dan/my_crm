@@ -5,6 +5,8 @@ namespace Tests\Feature\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\Position;
+
 
 class RegistrationTest extends TestCase
 {
@@ -22,6 +24,7 @@ class RegistrationTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'position_id' => $this->position->id,
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);

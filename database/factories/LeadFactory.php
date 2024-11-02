@@ -27,7 +27,6 @@ class LeadFactory extends Factory
             "email" => $this->faker->email(),
             "phone" => "380" . $operators[rand(0,3)]. rand(1111111,9999999),
             "source" =>  $lead_source[rand(0,4)],
-            //"product_id" => rand(1,4),
         ];
     }
 
@@ -37,7 +36,7 @@ class LeadFactory extends Factory
         
         LeadProduct::create([
             "lead_id" => $lead->id,
-            "product_id" => rand(1,4),
+            "product_id" => 1,
         ]);
     });
     }

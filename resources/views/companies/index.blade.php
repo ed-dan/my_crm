@@ -41,15 +41,17 @@
                                             </form>
 
                                         </div>
-                                        <div style="float: right">
-                                            Add new Company
-                                            <button type="submit" class=" button mr-3 ml-3">
-                                                <a class="text-black" href="{{route("company.create")}}">
-                                                    Create
-                                                </a>
+                                        @if(auth()->user()->position_id == App\Models\User::ADMIN_ID)
+                                            <div style="float: right">
+                                                Add new Company
+                                                <button type="submit" class=" button mr-3 ml-3">
+                                                    <a class="text-black" href="{{route("company.create")}}">
+                                                     Create
+                                                    </a>
 
-                                            </button>
-                                        </div>
+                                                </button>
+                                            </div>
+                                        @endif
 
                                     </div>
                                 </div>

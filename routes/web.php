@@ -34,13 +34,11 @@ Route::middleware("auth")->group(function (){
 
     Route::get('/', [HomeController::class, 'homePage'])->name('home');
 
-
     Route::prefix("leads")->group(function () {
         Route::get('/', [LeadController::class, 'index']);
         Route::get('/import', [LeadController::class, 'import'])->name('lead.import');
         Route::get('/{lead}/edit', [LeadController::class, 'edit'])->name('lead.edit');
         Route::patch('/{lead}', [LeadController::class, 'update'])->name('lead.update');
-        //Route::patch('/{lead}', [LeadController::class, 'openDeal'])->name('lead.update');
     });
 
     Route::prefix("deals")->group(function () {
@@ -62,22 +60,25 @@ Route::middleware("auth")->group(function (){
         });
     });
 
-    Route::prefix("companies")->group(function () {
-        Route::controller(CompanyController::class)->group(function () {
-            Route::get('/', 'index')->name('company.index');
-            Route::get('/create', 'create')->name('company.create');
-            Route::post('/', 'store')->name('company.store');
-            Route::get('/{company}', 'show')->name('company.show');
-        });
-    });
+    Route::middleware("manager.forbidden")->group(function (){
 
+        Route::prefix("companies")->group(function () {
+            Route::controller(CompanyController::class)->group(function () {
+                Route::get('/', 'index')->name('company.index');
+                Route::get('/create', 'create')->name('company.create')->middleware('admin.permission');
+                Route::post('/', 'store')->name('company.store');
+                Route::get('/{company}', 'show')->name('company.show');
+            });
+        });
+    
+        Route::get('/products', [ProductController::class, 'index'])->name('product.index');
+        Route::get('/products/create', [ProductController::class, 'create'])->name('product.create')->middleware('admin.permission');
+        Route::post('/products', [ProductController::class, 'store'])->name('product.store');
+    });
+    
     Route::get('autocomplete', [DealController::class, 'autocomplete'])->name('autocomplete');
 
     Route::get('/tasks', [TaskController::class, 'index'])->name('task.index');
-
-    Route::get('/products', [ProductController::class, 'index'])->name('product.index');
-    Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
-    Route::post('/products', [ProductController::class, 'store'])->name('product.store');
 
 });
 
