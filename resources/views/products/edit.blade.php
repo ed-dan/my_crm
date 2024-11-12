@@ -5,20 +5,20 @@
           href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css') }}"/>
 
 
-    <section class="content w-80 mt-5" style="float:right; width: 750px">
+    <section class="content w-80    " style="float:right; width: 100%">
         <div class="container-fluid">
             <div class="mt-3">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mt-5">
+                        <div class="card">
                             <div class="card-header " id="app">
                                 @guest
                                 @else
                                     <div class="app mt-3">
                                         <link rel="stylesheet" href="/css/app.css">
-                                        <div class="bg-company-logo p-3 ">
+                                        <div class="bg-product-update p-3 ">
                                             <h5>
-                                                Add new Product:
+                                                Update Product:
                                             </h5>
                                             <div class="row">
                                                 <div class="col">
@@ -28,10 +28,11 @@
                                             </div>
                                         </div>
                                         <form class="form-horizontal" method="POST"
-                                              action="{{route('product.store')}}"
+                                              action="{{route('product.update', $product->id)}}"
                                               enctype="multipart/form-data">
                                             @csrf
-
+                                            @method('patch')
+                                            
                                             <hr>
                                             <div class="form-group row ">
                                                 <label for="title"
@@ -39,20 +40,23 @@
                                                 <div class="col-sm-9">
                                                     <input type="text" name="title" class="form-control"
                                                            placeholder="Enter company name"
-                                                           value="{{old("title")}}">
-                                                            @error('title')
-                                                                <p class="col-form-label ml-2 mt-0">{{$message}}</p>
-                                                            @enderror
+                                                           value="{{$product->title}}">
+                                                     @error('title')
+                                                        <p class="col-form-label ml-2 mt-0">{{$message}}</p>
+                                                    @enderror
                                                 </div>
                                                 
                                             </div>
                                             <div class="form-group row">
                                                 <label for="priority"
-                                                       class="col-sm-3 col-form-label ">Category</label>
+                                                       class="col-sm-3 col-form-label ">Category name</label>
                                                 <div class="col-sm-9">
                                                     <select name="category_id" class="select-width form-control">
-                                                        <option></option>
-                                                        @foreach($categories as $category)
+                                                        <option name="category_id" value="{{$product->category->id}}">
+                                                            {{$product->category->title}}
+                                                        </option>
+                                                        
+                                                        @foreach($categories->except($product->category->id) as $category)
                                                             <option name="category_id" value="{{$category->id}}">
                                                                 <h6>{{$category->title}}</h6>
                                                             </option>
@@ -61,23 +65,28 @@
                                                     @error('category_id')
                                                         <p class="col-form-label ml-2 mt-0">{{$message}}</p>
                                                     @enderror
+                                                
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="priority"
                                                        class="col-sm-3 col-form-label ">Company</label>
                                                 <div class="col-sm-9">
-                                                    <select name="company_id" class="select-width form-control">
-                                                        <option></option>
-                                                        @foreach($companies as $company)
-                                                            <option name="company_id" value="{{$company->id}}">
-                                                                <h6>{{$company->name}}</h6>
+                                                    
+                                                        <select name="company_id" class="select-width form-control">
+                                                            <option name="company_id" value="{{$product->company->id}}">
+                                                                {{$product->company->name}}
                                                             </option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('company_id')
-                                                        <p class="col-form-label ml-2 mt-0">{{$message}}</p>
-                                                    @enderror
+
+                                                            @foreach($companies->except($product->company->id) as $company)
+                                                                <option name="company_id" value="{{$company->id}}">
+                                                                    <h6>{{$company->name}}</h6>
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('company_id')
+                                                            <p class="col-form-label ml-2 mt-0">{{$message}}</p>
+                                                        @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row ">
@@ -86,43 +95,44 @@
                                                 <div class="col-sm-9">
                                                     <input type="text" name="price" class="form-control"
                                                            placeholder="Enter company address"
-                                                           value="{{old("price")}}">
+                                                           value="{{$product->price}}">
                                                         @error('price')
                                                            <p class="col-form-label ml-2 mt-0">{{$message}}</p>
-                                                        @enderror    
+                                                        @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row ">
-                                                <label for="name"
-                                                       class="col-sm-3 col-form-label">Identifier</label>
+                                                <label for="identifier"
+                                                       class="col-sm-3 col-form-label">Product Identifier</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" name="identifier" class="form-control"
                                                            placeholder="Enter company website"
-                                                           value="{{old("identifier")}}">
+                                                           value="{{$product->identifier}}">
                                                         @error('identifier')
                                                            <p class="col-form-label ml-2 mt-0">{{$message}}</p>
-                                                        @enderror  
+                                                        @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="name"
                                                        class="col-sm-3 col-form-label">Description</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" name="description" id="" cols="30" rows="8"></textarea>
+                                                    <textarea class="form-control" name="description" id="" cols="30" rows="8">{{$product->description}}</textarea>
+                                                 
                                                 </div>
                                             </div>
 
-
-
                                             <div class="card-footer p">
                                                 <button class="btn btn-default">
-                                                    <a href="/" class="text-black"> Back </a>
+                                                    <a href="{{route('product.show', $product->id)}}" class="text-black"> Back </a>
                                                 </button>
 
                                                 <button type="submit"
                                                         class="button float-right text-black"
-                                                        style="width: 150px;">
-                                                    Add Product
+                                                        style="width: 120px;">
+                                                        <a type="submit" class="text-black">
+                                                             Confirm 
+                                                        </a>                                                
                                                 </button>
                                             </div>
                                             <!-- /.card-footer -->

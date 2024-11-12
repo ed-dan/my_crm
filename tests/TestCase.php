@@ -13,18 +13,24 @@ abstract class TestCase extends BaseTestCase
     protected User $user;
     protected Position $position;
 
-    protected function setUp() : void
+    // protected function setUp() : void
+    // {
+    //     parent::setUp();
+    //     $this->position = Position::factory()->create();
+    //     $this->user = User::factory()->create();
+    // }
+
+    protected function setFactoryData(int $position_id) : void
     {
-        parent::setUp();
+        if (!Position::find($position_id)){
+            $this->position = Position::factory()->create([
+                'id' => $position_id
+            ]);   
+        }
 
-        $this->position = Position::factory()->create();
-        $this->user = $this->createUser();
+        $this->user = User::factory()->create([
+            'position_id' => $this->position->id
+        ]);
     }
-
-    private function createUser() : User
-    {
-        return User::factory()->create();
-    }
-
 
 }

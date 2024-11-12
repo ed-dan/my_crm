@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UpdateCompanyRequest;
 
 class CompanyController extends Controller
 {
@@ -15,7 +16,7 @@ class CompanyController extends Controller
             ->join("categories","categories.id", "=", "products.category_id")
             ->select("categories.title as category_title", "products.title", "products.company_id",)
             ->get();
-        return view("companies.index", [
+        return view('companies.index', [
             "companies" => $companies,
             "products" => $products,
         ]);
@@ -23,7 +24,7 @@ class CompanyController extends Controller
 
     public function create()
     {
-        return view("companies.create");
+        return view('companies.create');
     }
 
     public function store()
@@ -35,13 +36,23 @@ class CompanyController extends Controller
             "company_phone  " => "",
             "description" => ""
         ]);
-        Company::create($formFields,["company_phone" => request()->company_phone]);
+        Company::create($formFields,['company_phone' => request()->company_phone]);
         return redirect('/companies');
     }
 
     public function show(Company $company)
     {
-        return view("companies.show",["company" => $company]);
+        return view('companies.show',['company' => $company]);
     }
 
+    public function edit(Company $company)
+    {
+        return view('companies.edit', compact('company'));
+    }
+
+    public function update(Company $company, UpdateCompanyRequest $request)
+    {   
+        $company->update($request->validated());
+        return redirect()->route('company.show', $company->id);
+    }
 }

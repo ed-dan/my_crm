@@ -16,9 +16,9 @@
                                 @else
                                     <div class="app mt-3">
                                         <link rel="stylesheet" href="/css/app.css">
-                                        <div class="bg-product-show p-3 ">
+                                        <div class="bg-product-update p-3 ">
                                             <h5>
-                                                About Company:
+                                                Update Company:
                                             </h5>
                                             <div class="row">
                                                 <div class="col">
@@ -27,20 +27,23 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <form class="form-horizontal" method=""
-                                              action=""
+                                        <form class="form-horizontal" method="POST"
+                                              action="{{route('company.update', $company->id)}}"
                                               enctype="multipart/form-data">
-                                            
+                                              @csrf
+                                              @method('patch')
 
                                             <hr>
                                             <div class="form-group row ">
                                                 <label for="title"
                                                        class="col-sm-3 col-form-label">Company Name</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="title" class="form-control"
+                                                    <input type="text" name="name" class="form-control"
                                                            placeholder="Add company name"
-                                                           value="{{$company->name}}" disabled>
-                                                           
+                                                           value="{{$company->name}}" >
+                                                        @error('name')
+                                                           <p class="col-form-label ml-2 mt-0">{{$message}}</p>
+                                                        @enderror
                                                 </div>
                                                 
                                             </div>
@@ -48,29 +51,36 @@
                                                 <label for="priority"
                                                        class="col-sm-3 col-form-label ">Company Phone</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="title" class="form-control"
+                                                    <input type="text" name="company_phone" class="form-control"
                                                            placeholder="Add company phone"
-                                                           value="{{$company->company_phone}}" disabled>
-                                                    
+                                                           value="{{$company->company_phone}}" >
+                                                        @error('company_phone')
+                                                           <p class="col-form-label ml-2 mt-0">{{$message}}</p>
+                                                        @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="priority"
                                                        class="col-sm-3 col-form-label ">Company Website</label>
                                                 <div class="col-sm-9 ">
-                                                    <input type="text" name="title" class="form-control"
+                                                    <input type="text" name="website" class="form-control"
                                                            placeholder="Add company website"
-                                                           value="{{$company->website}}" disabled>
+                                                           value="{{$company->website}}" >
+                                                        @error('website')
+                                                           <p class="col-form-label ml-2 mt-0">{{$message}}</p>
+                                                        @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row ">
                                                 <label for="name"
                                                        class="col-sm-3 col-form-label">Company Adddress</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="price" class="form-control"
+                                                    <input type="text" name="address" class="form-control"
                                                            placeholder="Add company address"
-                                                           value="{{$company->address}}" disabled>
-                                                       
+                                                           value="{{$company->address}}" >
+                                                        @error('address')
+                                                           <p class="col-form-label ml-2 mt-0">{{$message}}</p>
+                                                        @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row ">
@@ -96,20 +106,20 @@
                                                 <label for="name"
                                                        class="col-sm-3 col-form-label">Description</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" name="description" id="" cols="30" rows="8" disabled>{{$company->description}}</textarea>
+                                                    <textarea class="form-control" name="description" id="" cols="30" rows="8" >{{$company->description}}</textarea>
                                                 </div>
                                             </div>
 
                                             <div class="card-footer p">
                                                 <button class="btn btn-default">
-                                                    <a href="{{route('company.index')}}" class="text-black"> Back </a>
+                                                    <a href="{{route('company.show', $company->id)}}" class="text-black"> Back </a>
                                                 </button>
                                                 @if(auth()->user()->position_id == App\Models\User::ADMIN_ID)
                                                     <button
-                                                        class="button float-right text-black"
+                                                        class="button float-right text-black" type="submit"
                                                         style="width: 150px;">
-                                                        <a href="{{route('company.edit', $company->id)}}" class="text-black">
-                                                             Edit Company 
+                                                        <a class="text-black" type="submit">
+                                                              Confirm 
                                                         </a>                                                
                                                     </button>
                                                 @endif

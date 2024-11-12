@@ -12,7 +12,6 @@ class User extends Authenticatable
 {
     use  HasFactory, Notifiable;
 
-
     public const ADMIN_ID = 1;
     public const ANALYTIC_ID = 2;
     public const MANAGER_ID = 3;
@@ -21,15 +20,16 @@ class User extends Authenticatable
 
     public function position()
     {
-        return $this->belongsTo(Position::class, "position_id", "id");
+        return $this->belongsTo(Position::class, 'position_id', 'id');
     }
+    
     public static function getPosition($position_id): string
     {
         if ($position_id == 1) {
-            self::$position = "admin";
+            self::$position = 'admin';
         }
         if ($position_id == 3) {
-            self::$position = "manager";
+            self::$position = 'manager';
         }
         return self::$position;
     }
@@ -44,6 +44,7 @@ class User extends Authenticatable
         'email',
         'password',
         'position_id',
+        'api_token',
     ];
 
     /**

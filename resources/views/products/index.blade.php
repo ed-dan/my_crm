@@ -111,7 +111,7 @@
                                                         <h6>{{$product->price . ".00 $"}}</h6>
                                                     </td>
                                                     <td>
-                                                        <h6>{{rand(20,200) }}  pcs.</h6>
+                                                        <h6>{{$product->quantity }}  pcs.</h6>
                                                     </td>
 
                                                     <td>
@@ -122,12 +122,31 @@
                                                                     <button type="button"
                                                                             class="btn btn-block btn-default">
                                                                         <a class="link-color-blue text-black"
-                                                                           href="">
+                                                                           href="{{route('product.show', $product->id)}}">
                                                                             About
                                                                         </a>
                                                                     </button>
                                                                 </form>
+                                                            @if(auth()->user()->position_id == App\Models\User::ADMIN_ID)
+                                                                <form method="POST" action="{{ route('product.destroy', $product->id) }}">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                            class="btn btn-block btn-outline-danger ml-3">                                                                       
+                                                                        <ion-icon name="trash-outline"></ion-icon>
+                                                                    </button>
+                                                                </form>
 
+                                                                {{-- <form method="POST" action="{{ route('product.destroy', $product->id) }}">
+                                                                    @csrf
+                                                                    <input name="_method" type="hidden" value="DELETE">
+                                                                    <button type="submit"
+                                                                            class="btn btn-block btn-outline-danger"
+                                                                            data-toggle="tooltip" title='Delete'>
+                                                                        <ion-icon name="trash-outline"></ion-icon>
+                                                                    </button>
+                                                                </form> --}}
+                                                            @endif
                                                                 <link rel="stylesheet" href="/css/app.css">
                                                             </div>
                                                         </div>

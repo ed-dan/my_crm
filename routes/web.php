@@ -19,16 +19,6 @@ use Illuminate\Support\Facades\Cache;
 |
 */
 
-//Route::get('/', function () {
-//
-//    /** @var \Illuminate\Cache\CacheManager $cache */
-//    $cache = app()->make("cache");
-//    //$cache->put("test", 132);
-//    $cache = Cache();
-//    dd($cache);
-//    return 123;
-//});
-
 
 Route::middleware("auth")->group(function (){
 
@@ -61,19 +51,28 @@ Route::middleware("auth")->group(function (){
     });
 
     Route::middleware("manager.forbidden")->group(function (){
-
         Route::prefix("companies")->group(function () {
             Route::controller(CompanyController::class)->group(function () {
                 Route::get('/', 'index')->name('company.index');
                 Route::get('/create', 'create')->name('company.create')->middleware('admin.permission');
                 Route::post('/', 'store')->name('company.store');
+                Route::get('/{company}/edit', 'edit')->name('company.edit')->middleware('admin.permission');
+                Route::patch('/{company}', 'update')->name('company.update');
                 Route::get('/{company}', 'show')->name('company.show');
             });
         });
     
-        Route::get('/products', [ProductController::class, 'index'])->name('product.index');
-        Route::get('/products/create', [ProductController::class, 'create'])->name('product.create')->middleware('admin.permission');
-        Route::post('/products', [ProductController::class, 'store'])->name('product.store');
+        Route::prefix("products")->group(function () {
+            Route::controller(ProductController::class)->group(function () {
+                Route::get('/', 'index')->name('product.index');
+                Route::get('/create', 'create')->name('product.create')->middleware('admin.permission');
+                Route::post('/','store')->name('product.store');
+                Route::get('/{product}/edit', 'edit')->name('product.edit')->middleware('admin.permission');
+                Route::patch('/{product}', 'update')->name('product.update');
+                Route::get('/{product}', 'show')->name('product.show');
+                Route::delete('/{product}', 'destroy')->name('product.destroy');
+            });
+        });
     });
     
     Route::get('autocomplete', [DealController::class, 'autocomplete'])->name('autocomplete');

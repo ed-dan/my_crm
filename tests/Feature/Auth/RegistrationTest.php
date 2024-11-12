@@ -21,12 +21,15 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register(): void
     {
+        $position = Position::factory()->create();
+
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'position_id' => $this->position->id,
+            'position_id' => $position->id,
             'password' => 'password',
             'password_confirmation' => 'password',
+            'api_token' => 'EW1Q2oig5zsjbCVdYL1NtDbBXtZAAq18Zo1YdJHZB4NSbOoekapZwVbICua9',
         ]);
 
         $this->assertAuthenticated();

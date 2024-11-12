@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+
     use HasFactory;
+    protected $guarded = [];
+    protected $fillable = ['title', 'identifier', 'company_id', 'category_id', 'price'];
 
     public function category()
     {
@@ -16,7 +19,7 @@ class Product extends Model
 
     public function company()
     {
-        return $this->belongsTo(Company::class, 'company_id', 'product_id');
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
 

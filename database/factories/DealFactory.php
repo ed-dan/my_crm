@@ -19,11 +19,11 @@ class DealFactory extends Factory
     public function definition(): array
     {
         return [
-            "stage_id" => Stage::factory(),
-            "status_id" => Status::factory(),
-            "employee_id" => 1,
-            "lead_id" => Lead::factory(),
-            "closing_date" => "2024-10-25 08:24:20"
+            'stage_id' => Stage::factory(),
+            'status_id' => Status::factory(),
+            'employee_id' => 1,
+            'lead_id' => Lead::factory(),
+            'closing_date' => "2024-10-25 08:24:20"
         ];
     }
 
@@ -32,8 +32,8 @@ class DealFactory extends Factory
     return $this->afterCreating(function (Deal $deal) {
         
         DealEmployee::create([
-            "deal_id" => $deal->id,
-            "employee_id" => $deal->employee_id,
+            'deal_id' => $deal->id,
+            'employee_id' => $deal->employee_id,
         ]);
     });
     }
