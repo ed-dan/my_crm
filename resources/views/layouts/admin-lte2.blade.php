@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="Scroll">
 <head>
-
+    <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
     <style type="text/css">
         * {
             margin: 0px;

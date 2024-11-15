@@ -5,20 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 
 class CompanyController extends Controller
 {
     public function index()
     {
-        $companies = DB::table("companies")->get();
-        $products = DB::table("products")
-            ->join("categories","categories.id", "=", "products.category_id")
-            ->select("categories.title as category_title", "products.title", "products.company_id",)
-            ->get();
         return view('companies.index', [
-            "companies" => $companies,
-            "products" => $products,
+            "companies" => Company::all(),
         ]);
     }
 
@@ -27,16 +22,9 @@ class CompanyController extends Controller
         return view('companies.create');
     }
 
-    public function store()
+    public function store(StoreCompanyRequest $request)
     {
-        $formFields = \request()->validate([
-            'name' => '',
-            'address' => '',
-            'website' => '',
-            "company_phone  " => "",
-            "description" => ""
-        ]);
-        Company::create($formFields,['company_phone' => request()->company_phone]);
+        Company::create($request->validated());
         return redirect('/companies');
     }
 
@@ -54,5 +42,12 @@ class CompanyController extends Controller
     {   
         $company->update($request->validated());
         return redirect()->route('company.show', $company->id);
+    }
+
+    public function destroy(Company $company) 
+    {
+        $company->delete();
+        
+        return redirect()->route('company.index');
     }
 }

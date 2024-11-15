@@ -97,10 +97,10 @@
                                                         <h6>{{$product->title}}</h6>
                                                     </td>
                                                     <td>
-                                                        <h6>{{$product->category_title}}</h6>
+                                                        <h6>{{$product->category->title}}</h6>
                                                     </td>
                                                     <td>
-                                                        <h6>{{$product->company_title}}</h6>
+                                                        <h6>{{$product->company->name}}</h6>
                                                     </td>
 
                                                     <td>

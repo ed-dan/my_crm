@@ -14,20 +14,16 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = DB::table("products")
-            ->join("companies", "companies.id", "=", "products.company_id")
-            ->join("categories", "categories.id", "=", "products.category_id")
-            ->select("products.*", "categories.title as category_title", "companies.name as company_title")->get();
-        return view('products.index', ['products' => $products]);
+        return view('products.index', [
+            'products' => Product::with('company', 'category')->get()
+        ]);
     }
 
     public function create()
     {
-        $categories = DB::table('categories')->get();
-        $companies = DB::table('companies')->get();
         return view('products.create', [
-            'categories' => $categories,
-            'companies' => $companies,
+            'categories' => Category::all(),
+            'companies' => Company::all(),
         ]);
     }
 
@@ -39,21 +35,26 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $categories = DB::table('categories')->get();
-        $companies = DB::table('companies')->get();
-        return view('products.show', compact('product', 'categories', 'companies'));
+        return view('products.show', [
+            'product' => $product,
+            'categories' => Category::all(),
+            'companies' => Company::all(),
+        ]);
     }
 
     public function edit(Product $product)
     {
-        $categories = Category::all();
-        $companies = Company::all();
-        return view('products.edit', compact('product', 'categories', 'companies'));
+        return view('products.edit', [
+            'product' => $product,
+            'categories' => Category::all(),
+            'companies' => Company::all(),
+        ]);
     }
 
     public function update(Product $product, UpdateProductRequest $request)
     {   
         $product->update($request->validated());
+
         return redirect()->route('product.show', $product->id);
     }
 
@@ -63,5 +64,4 @@ class ProductController extends Controller
         
         return redirect()->route('product.index');
     }
-    
 }

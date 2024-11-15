@@ -129,7 +129,7 @@ class Deal extends Model
         ]);
     }
 
-    public function getProductList() : string | null 
+    public function getProductList() : string  
     {
         foreach ($this->products as $product) { 
             $this->productList .= $product->pivot->quantity . "x " .$product->title . ",\n";

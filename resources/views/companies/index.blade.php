@@ -119,22 +119,6 @@
                                             </div>
                                         </div>
                                     </div>
-{{--                                    <div>--}}
-{{--                                        <div class="d-inline-block mt-3 ml-1">--}}
-{{--                                            <h6>--}}
-{{--                                                Category:--}}
-{{--                                            </h6>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="d-inline-block mt-3 mr-2" style="float: right;">--}}
-{{--                                            <div style="">--}}
-{{--                                                @foreach($products as $product)--}}
-{{--                                                    @if($product->company_id == $company->id)--}}
-{{--                                                        {{ $product->category_title }}--}}
-{{--                                                    @endif--}}
-{{--                                                @endforeach--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
 
                                     <hr>
 
@@ -146,11 +130,12 @@
                                         </div>
                                         <div class="d-inline-block mt-3 mr-2" style="float: right;">
                                             <div style="">
-                                                @foreach($products as $product)
+                                                {{ $company->getProducts() }}
+                                                {{-- @foreach($products as $product)
                                                     @if($product->company_id == $company->id)
                                                         <h6>{{ $product->title }}</h6>
                                                     @endif
-                                                @endforeach
+                                                @endforeach --}}
                                             </div>
                                         </div>
                                     </div>

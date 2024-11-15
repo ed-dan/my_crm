@@ -59,6 +59,7 @@ Route::middleware("auth")->group(function (){
                 Route::get('/{company}/edit', 'edit')->name('company.edit')->middleware('admin.permission');
                 Route::patch('/{company}', 'update')->name('company.update');
                 Route::get('/{company}', 'show')->name('company.show');
+                Route::delete('/{company}', 'destroy')->name('company.destroy');
             });
         });
     

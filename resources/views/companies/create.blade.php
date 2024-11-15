@@ -40,9 +40,25 @@
                                                     <input type="text" name="name" class="form-control"
                                                            placeholder="Enter company name"
                                                            value="{{old("name")}}">
+                                                        @error('name')
+                                                           <p class="col-form-label ml-2 mt-0">{{$message}}</p>
+                                                        @enderror
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+
+                                            <div class="form-group row ">
+                                                <label for="company_phone"
+                                                       class="col-sm-3 col-form-label">Company phone</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="company_phone" class="form-control"
+                                                           placeholder="Enter company phone"
+                                                           value="{{old("company_phone")}}">
+                                                        @error('company_phone')
+                                                           <p class="col-form-label ml-2 mt-0">{{$message}}</p>
+                                                        @enderror
+                                                </div>
+                                            </div>
+                                            {{-- <div class="form-group row">
                                                 <label for="priority"
                                                        class="col-sm-3 col-form-label ">Specialization</label>
                                                 <div class="col-sm-9">
@@ -54,7 +70,7 @@
                                                         <option name="product_id" value="4"><h6>Vitamins and supplements</h6></option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group row ">
                                                 <label for="name"
                                                        class="col-sm-3 col-form-label">Address</label>
@@ -71,15 +87,6 @@
                                                     <input type="text" name="website" class="form-control"
                                                            placeholder="Enter company website"
                                                            value="{{old("website")}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row ">
-                                                <label for="name"
-                                                       class="col-sm-3 col-form-label">Company phone</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="company_phone" class="form-control"
-                                                           placeholder="Enter company phone"
-                                                           value="{{old("company_phone")}}">
                                                 </div>
                                             </div>
 
