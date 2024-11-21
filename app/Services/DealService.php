@@ -45,6 +45,7 @@ class DealService
 
     public function update(Deal $deal, UpdateDealRequest $dealRequest)
     {
+        dd($dealRequest->request);
         $dealRequest->collect()->each( function ($item, $key) use ($deal) {
             if(Str::startsWith($key, "count") and $item > 0 ) {
                 LeadProduct::updateOrCreate([

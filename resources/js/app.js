@@ -45,3 +45,4 @@
 // app.mount('#app');
 
 import './bootstrap';
+import './diagram'

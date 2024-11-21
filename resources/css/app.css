@@ -1,4 +1,4 @@
-.DivToScroll{
+/* .DivToScroll{
     background-color: #F5F5F5;
     border: 1px solid #DDDDDD;
     border-radius: 4px 0 4px 0;
@@ -7,4 +7,461 @@
     font-weight: bold;
     left: -1px;
     padding: 10px 7px 5px;
+} */
+
+
+* {
+    margin: 0px;
+    padding: 0;
 }
+
+#container {
+    height: 100%;
+    width: 100%;
+    font-size: 0;
+}
+
+#left, #middle, #right {
+    display: inline-block;
+    /* *display: inline; */
+    zoom: 1;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+#left {
+    width: 49%;
+    height: 350px;
+}
+
+
+#right {
+    width: 49%;
+    height: 345px;
+}
+
+.homePageTable {
+    width: 200%
+}
+
+.Scroll {
+    scrollbar-color:  #343a40 #454d55;
+    
+}
+
+.reverseScroll {
+    scrollbar-color: #454d55 #343a40 ;
+    
+}
+
+
+
+.progressbar {
+    margin: 10px 0 10px 0;
+    counter-reset: step;
+}
+
+.progressbar li {
+    list-style-type: none;
+    width: 25%;
+    float: left;
+    font-size: 12px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    color: #7d7d7d;
+}
+
+.progressbar li:before {
+    width: 15px;
+    height: 15px;
+    content: '';
+    line-height: 30px;
+    border: 2px solid #7d7d7d;
+    background-color: #7d7d7d;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    transition: all .8s;
+}
+
+.progressbar li:after {
+    width: 100%;
+    height: 2px;
+    content: '';
+    position: absolute;
+    background-color: #7d7d7d;
+    top: 7px;
+    left: -50%;
+    z-index: -1;
+    transition: all .8s;
+}
+
+.progressbar li:first-child:after {
+    content: none;
+}
+
+
+.progressbar li.active:before {
+    border-color: #55B776FF;
+    background-color: #55b776;
+    transition: all .8s;
+}
+
+.progressbar li.active:after {
+    background-color: #55b776;
+    transition: all .8s;
+}
+
+
+.progressbar-red li.active:before {
+    border-color: #dc3a3a;
+    background-color: #DC3A3AFF;
+    transition: all .8s;
+}
+
+.progressbar-red li.active:after {
+    background-color: #55b776;
+    transition: all .8s;
+}
+
+
+.progressbar-red li {
+    list-style-type: none;
+    width: 25%;
+    float: left;
+    font-size: 12px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    color: #7d7d7d;
+}
+
+.progressbar-red li:before {
+    width: 15px;
+    height: 15px;
+    content: '';
+    line-height: 30px;
+    border: 2px solid #7d7d7d;
+    background-color: #7d7d7d;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    transition: all .8s;
+}
+
+.progressbar-red li:after {
+    width: 100%;
+    height: 2px;
+    content: '';
+    position: absolute;
+    background-color: #7d7d7d;
+    top: 7px;
+    left: -50%;
+    z-index: -1;
+    transition: all .8s;
+}
+
+.progressbar-red li:first-child:after {
+    content: none;
+}
+
+
+
+
+.progressbar-yellow li.active:before {
+    border-color: #dcb63a;
+    background-color: #dcb63a;
+    transition: all .8s;
+}
+
+.progressbar-yellow li.active:after {
+    background-color: #55b776;
+    transition: all .8s;
+}
+
+
+.progressbar-yellow li {
+    list-style-type: none;
+    width: 25%;
+    float: left;
+    font-size: 12px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    color: #7d7d7d;
+}
+
+.progressbar-yellow li:before {
+    width: 15px;
+    height: 15px;
+    content: '';
+    line-height: 30px;
+    border: 2px solid #7d7d7d;
+    background-color: #7d7d7d;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    transition: all .8s;
+}
+
+.progressbar-yellow li:after {
+    width: 100%;
+    height: 2px;
+    content: '';
+    position: absolute;
+    background-color: #7d7d7d;
+    top: 7px;
+    left: -50%;
+    z-index: -1;
+    transition: all .8s;
+}
+
+.progressbar-yellow li:first-child:after {
+    content: none;
+}
+
+.btn {
+    background-color: #55b776;
+    margin: 5px;
+    width: 75px;
+    color: white;
+}
+
+.btn:hover {
+    color: white;
+}
+
+.btn:focus {
+    color: white;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+body {
+    background-color: #333333;
+}
+
+.bg-success-default {
+    background-color: #5b636c !important;
+}
+.bg-success-red {
+    background-color: rgba(248, 80, 80, 0.5) !important;
+}
+.bg-success-green {
+    background-color: #56F68E49 !important;
+}
+.bg-success-yellow {
+    background-color: rgba(245, 232, 75, 0.33) !important;
+}
+
+.step-progress {
+    display: flex;
+    width: 75%;
+}
+
+.step {
+    flex: 1;
+    position: relative;
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(175, 174, 174, 0.28);
+    /*border-top: 1px solid #ccc;*/
+    /*border-bottom: 1px solid #ccc;*/
+}
+
+.step.active-green {
+    background-color: rgba(86, 246, 142, 0.29);
+    color: #fff;
+}
+.step.active-red {
+    background-color: rgba(250, 108, 108, 0.29);
+    color: #fff;
+
+}
+.step.active-yellow {
+    background-color: rgba(245, 232, 75, 0.34);
+    color: #fff;
+
+}
+
+.step::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid rgba(175, 174, 174, 0.28);
+}
+.step.active-green::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-top: 20px  solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid rgba(9, 252, 94, 0.43);
+}
+.step.active-yellow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-top: 20px  solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid rgba(245, 232, 75, 0.61);
+}
+.step.active-red::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-top: 20px  solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid rgba(252, 70, 70, 0.58);
+}
+
+.no-margin-padding {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* #################### DIAGRAM STYLES ######################## */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+                                        
+@keyframes bake-pie {
+    from {
+        transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+}
+
+body {
+    font-family: "Open Sans", Arial;
+    background: #EEE;
+}
+
+main {
+    width: 500px;
+    margin: 30px auto;
+}
+
+section {
+    margin-top: 30px;
+}
+
+.pieID {
+    display: inline-block;
+    vertical-align: top;
+}
+
+/*to remove stat change width*/
+.pie {
+    height: 200px;
+    width: 200px;
+    position: relative;
+    margin: 0 30px 30px 0;
+}
+
+.pie::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    height: 100px;
+    background: #343a40;
+    border-radius: 50%;
+    top: 50px;
+    left: 50px;
+}
+
+.pie::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    box-shadow: 0 0 3px 4px rgba(0, 0, 0, 0.1);
+    margin: 220px auto;
+
+}
+
+.slice {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    clip: rect(0px, 200px, 200px, 100px);
+    animation: bake-pie 1s;
+}
+
+.slice span {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    clip: rect(0px, 200px, 200px, 100px);
+}
+
+.legend {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background: #343a40;
+    padding: 15px;
+    font-size: 13px;
+    box-shadow: 1px 1px 0 #343a40,
+    2px 2px 0 #343a40;
+}
+
+.legend li {
+    width: 110px;
+    height: 1.25em;
+    margin-bottom: 0.7em;
+    padding-left: 0.5em;
+    border-left: 1.25em solid black;
+}
+
+.legend em {
+    font-style: normal;
+}
+
+.legend span {
+    float: right;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-size: 13px;
+    background: #9f9e9e;
+    padding: 5px 10px;
+    margin: 5px;
+}
+                                        
+

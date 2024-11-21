@@ -9,4 +9,10 @@ class LeadProduct extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'lead_id',
+        'product_id',
+        'quantity',
+    ];
+
 }

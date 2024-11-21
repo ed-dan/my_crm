@@ -29,7 +29,7 @@ class StoreTaskRequest extends FormRequest
             'deadline' => 'required',
             'time' => 'required',
             'priority' => 'required',
-            "subject" => "required"
+            'subject' => "required"
         ];
     }
 

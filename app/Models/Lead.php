@@ -11,6 +11,13 @@ class Lead extends Model
     use HasFactory;
     use Sortable;
     public array $sortable = ['name',];
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'source',
+        'employee_id'
+    ];
 
     public function scopeFilter($query, array $filters)
     {

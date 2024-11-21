@@ -16,7 +16,15 @@ class Deal extends Model
 
     private string $productList = "";
     private int $currentAmount = 0;
-
+    protected $fillable = [
+        'employee_id',
+        'lead_id',
+        'closing_date',
+        'status_id',
+        'task_id',
+        'city',
+        'address'
+    ];
     protected array $sortable = ['city', 'position_id', 'created_at', 'email'];
 
     public function scopeFilter($query, array $filters)

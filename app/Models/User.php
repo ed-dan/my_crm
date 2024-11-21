@@ -45,6 +45,7 @@ class User extends Authenticatable
         'password',
         'position_id',
         'api_token',
+        'task_id',
     ];
 
     /**

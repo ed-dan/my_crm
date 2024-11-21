@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="Scroll">
 <head>
-    <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
+<meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
     <style type="text/css">
         * {
             margin: 0px;
@@ -252,61 +252,11 @@
 
 
     <div class="content-wrapper Scroll" id="app">
-        <section class="content Scroll mr-4">
-            <div class="container-fluid">
-                <!-- Info boxes -->
-                <div class="mt-5 ml-2">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card mt-5">
-                                <div class="card-header" id="">
-                                    <h3 class="ml-2">Welcome: {{ Auth::user()->name, }}</h3>
-                                    <hr>
-                                    <h5 class="ml-2">Email: {{ Auth::user()->email, }}</h5>
-                                    @if(Auth::user()->position_id == 1 )
-                                        <h5 class="ml-2">Position: Admin</h5>
-                                    @elseif(Auth::user()->position_id == 2)
-                                        <h5 class="ml-2">Position: Analytical Expert</h5>
-                                    @elseif(Auth::user()->position_id == 3)
-                                        <h5 class="ml-2">Position: Manager</h5>
-                                    @endif
-
-                                    <div id="container" class="Scroll" style="overflow-y: scroll">
-                                        <div style="margin: 5px"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card mt-5">
-                                <div class="card-header" id="">
-
-                                    <div id="container">
-                                        <div style="margin: 5px">@yield('content3')</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4" style="float: right">
-                            <div class="card mt-5">
-                                <div class="card-header" id="">
-
-                                    <div id="container" class="Scroll" style="overflow-y: scroll">
-                                        <div style="margin: 5px">@yield('content4')</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
+        @yield('content')
+        @yield('content2')
+        @yield('content3')
         <!-- Main content -->
-        <section class="content Scroll" id="left">
+        {{-- <section class="content Scroll" id="left">
             <div class="container-fluid">
                 <!-- Info boxes -->
                 <div class="ml-2">
@@ -331,9 +281,6 @@
 
                                     @endif
 
-                                    @yield('login')
-
-
                                     @if(Auth::user()->position_id == 2)
                                         <div id="container" >
                                             <div style="margin: 5px; height: 300px">
@@ -357,9 +304,9 @@
                 </div>
                 <!-- /.col -->
             </div>
-        </section>
+        </section> --}}
 
-        <section class="content" id="right">
+        {{-- <section class="content" id="right">
             <div class="container-fluid">
                 <!-- Info boxes -->
                 <div class="">
@@ -408,7 +355,7 @@
                 </div>
                 <!-- /.col -->
             </div>
-        </section>
+        </section> --}}
 
 
         <!-- /.content -->
@@ -463,3 +410,20 @@
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>--}}
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>--}}
 </html>
+
+
+
+{{--<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>--}}
+{{--<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>--}}
+{{--<script src="{{asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>--}}
+{{--<script src="{{asset('dist/js/adminlte.js')}}"></script>--}}
+{{--<script src="{{asset('plugins/jquery-mousewheel/jquery.mousewheel.js')}}"></script>--}}
+{{--<script src="{{asset('plugins/raphael/raphael.min.js')}}"></script>--}}
+{{--<script src="{{asset('plugins/jquery-mapael/jquery.mapael.min.js')}}"></script>--}}
+{{--<script src="{{asset('plugins/jquery-mapael/maps/usa_states.min.js')}}"></script>--}}
+{{--<script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>--}}
+{{--<script src="{{asset('dist/js/demo.js')}}"></script>--}}
+{{--<script src="{{asset('dist/js/pages/dashboard2.js')}}"></script>--}}
+{{--</body>--}}
+{{--<script type="text/javascript" src="{{asset('/js/app.js')}}"></script>--}}
+
