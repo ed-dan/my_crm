@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Deal;
-use App\Models\DealEmployee;
-use App\Models\DealProduct;
-use App\Models\Lead;
-use App\Models\Task;
-use App\Models\Position;
-use App\Models\Product;
-use App\Models\Stage;
-use App\Models\Street;
-use App\Models\User;
+use App\Models\{Deal, DealEmployee, DealProduct, Lead, Task, Position, Product, Stage, Street, User};
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateDealRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades;
 use App\Services\DealService;
+use Redis;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 
 class DealController extends Controller
 {
@@ -33,7 +29,7 @@ class DealController extends Controller
         return response()->json($data);
     }
 
-    public function index()
+    public function index(): View
     {
         return view("deals.index", [
             'position' => auth()->user()->position->title,
@@ -44,8 +40,7 @@ class DealController extends Controller
         ]);
     }
 
-
-    public function edit(Deal $deal)
+    public function edit(Deal $deal): View
     {   
         return view('deals.edit', [
             'deal' => $deal,
@@ -54,29 +49,33 @@ class DealController extends Controller
         ]);
     }
 
-    public function update(Deal $deal, UpdateDealRequest $request, DealService $dealService)
-    {       
+    //add data to the session 
+    public function update(Deal $deal, UpdateDealRequest $request, DealService $dealService): RedirectResponse
+    {      
         $dealService->update($deal, $request);
-        return redirect()->route("deal.show", $deal->id);
+        return redirect()->route("deal.confirm", $deal->id);
     }
-
-    public function confirm(Deal $deal, DealService $dealService)
+    
+    //in prepareDeal() we obtain data from session() and display in form 
+    public function confirm(Deal $deal, DealService $dealService): View
     {
-        $dealService->confirm($deal);
+        $dealService->prepareDeal();
         return view('deals.confirm', [
             'deal' => $deal,
             "stages" => DB::table("stages")->get(),
-            'product_names' => $deal->getProductList(),
+            'product_names' => session()->get("product_list"),
+            "amount" => session()->get("amount"),
         ]);
     }
-
-    public function closeDeal(Deal $deal, DealService $dealService)
+    
+    //update deal_product table and crear data from sesiom
+    public function closeDeal(Deal $deal, DealService $dealService): View
     {
         $dealService->closeDeal($deal);
         return view('deals.close-deal');
     }
 
-    public function rejectDeal(Deal $deal)
+    public function rejectDeal(Deal $deal): View
     {
         return view("deals.reject", [
             "deal" => $deal,
@@ -84,13 +83,13 @@ class DealController extends Controller
         ]);
     }
 
-    public function rejectAndClose(Deal $deal, DealService $dealService)
+    public function rejectAndClose(Deal $deal, DealService $dealService): RedirectResponse
     {
         $dealService->reject($deal);
         return redirect()->route("home");
     }
 
-    public function aboutDeal(Deal $deal)
+    public function aboutDeal(Deal $deal, Redis $redis): View
     {
         return view("deals.about", [
             "deal" => $deal,

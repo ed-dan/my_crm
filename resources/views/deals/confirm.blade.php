@@ -64,7 +64,7 @@
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control"
                                                        placeholder="Enter your name"
-                                                       value=" {{$deal->getDealAmount()}} $" disabled>
+                                                       value=" {{$amount}} $" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -95,7 +95,7 @@
                                                     Create Task </a>
                                             </button>
                                             <button class="btn btn-success float-right" style="width: 100px;">
-                                                <a href="{{ route('deal.confirm', $deal->id) }}" class="text-black">
+                                                <a href="{{ route('deal.success', $deal->id) }}" class="text-black">
                                                     Confirm</a>
                                             </button>
                                         </div>

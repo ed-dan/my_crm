@@ -201,7 +201,7 @@
                                             @elseif(($deal->stage_id == 3) and $deal->status_id == 2)
                                                 <button type="submit" class="btn btn-outline-warning d-inline ml-5"
                                                         style="width: 15%; float: none ">
-                                                    <a class="text-black" href={{ route('deal.show', $deal->id)}} >
+                                                    <a class="text-black" href={{ route('ddeal.confirm', $deal->id)}} >
                                                         Callback
                                                         <ion-icon name="call-outline" class="ml-3 mt-0"></ion-icon>
                                                     </a>

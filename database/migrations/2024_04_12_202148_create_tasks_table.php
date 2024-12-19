@@ -21,8 +21,8 @@ return new class extends Migration {
             $table->dateTime("deadline");
             $table->unsignedBigInteger("deal_id");
             $table->unsignedBigInteger("employee_id");
-            $table->index('employee_id','employee_task_idx');
-            $table->index('deal_id','deal_task_idx');
+            //$table->index('employee_id','employee_task_idx');
+            //$table->index('deal_id','deal_task_idx');
             $table->timestamps();
         });
 

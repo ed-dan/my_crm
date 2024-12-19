@@ -12,14 +12,11 @@
             Script Example
         </div>
         <div>
-{{--            <h3>About Product</h3>--}}
+
             <div>
 
                 {{$deal->lead->products[0]->description}}
                 @php
-
-                    //                $about_product = $product->description;
-                    //                echo $about_product;
 
                 @endphp
             </div>
@@ -73,7 +70,7 @@
                                                                placeholder="Enter your name"
                                                                value="{{ $deal->lead->products[0]->price }} $" disabled>
                                                         <input class="form-control mr-0" id="count"
-                                                               type="number" name="count{{$deal->lead->products->first()->id}}" value="1">
+                                                               type="number" name="id{{$deal->lead->products->first()->id}}" value="1">
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,7 +139,16 @@
                                                     }
                                                 }
                                             </script>
-                
+                                             <script>
+                                                // JavaScript function to transfer data from one input to another based on dynamic IDs
+                                                function transferData(input1Id, input2Id) {
+                                                    // Get the value from the first input field
+                                                    var inputValue = document.getElementById(input1Id).value;
+                                                    
+                                                    // Set the value of the second input field to the value from the first input
+                                                    document.getElementById(input2Id).value = inputValue;
+                                                }
+                                            </script>
 
                                             <h5 class="mt-3">
                                                 Logistic data:
@@ -189,7 +195,11 @@
                                                                         </label>
                                                                     </td>
                                                                     <td style="width: 100px">
-                                                                        <input class="form-control" id="count"
+                                                                       
+                                                                        <input class="form-control" 
+                                                                        oninput="transferData('output{{$prod->id}}', 'input{{$prod->id}}')"
+                                                                        id="output{{$prod->id}}"
+                                                                        
                                                                                type="number"
                                                                                name="count{{$prod->id}}" value="0">
                                                                     </td>
@@ -197,9 +207,13 @@
                                                                         <h6 class="mt-2">{{$prod->price}} $ <br></h6>
                                                                     </td>
                                                                     <td>
+                                                                    
                                                                         <input class="form-check-input mt-2"
+                                                                        oninput="transferData('output{{$prod->id}}', 'input{{$prod->id}}')"
+
                                                                                type="checkbox"
-                                                                               value="{{$prod->id}}"
+                                                                               id="input{{$prod->id}}"
+                                                                               value="0"
                                                                                name="id{{$prod->id}}">
                                                                     </td>
                                                                 @endif

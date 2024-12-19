@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("deal_id");
             $table->text("description");
-            $table->index('deal_id','note_deal_idx');
+            //$table->index('deal_id','note_deal_idx');
             $table->timestamps();
         });
 

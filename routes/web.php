@@ -36,8 +36,8 @@ Route::middleware("auth")->group(function (){
             Route::get('/', 'index')->name('deal.index');
             Route::get('/{deal}/edit', 'edit')->name('deal.edit');
             Route::patch('/{deal}', 'update')->name('deal.update');
-            Route::get('/{deal}', 'confirm')->name('deal.show');
-            Route::get('/{deal}/confirm', 'closeDeal')->name('deal.confirm');
+            Route::get('/{deal}', 'confirm')->name('deal.confirm');
+            Route::get('/{deal}/confirm', 'closeDeal')->name('deal.success');
             Route::get('/{deal}/reject', 'rejectDeal')->name('deal.reject');
             Route::patch('/reject/{deal}', 'rejectAndClose')->name('deal.close');
             Route::get('/{deal}/about', 'aboutDeal')->name('deal.about');

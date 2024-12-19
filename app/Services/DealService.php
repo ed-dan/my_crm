@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Lead;
+use App\Models\Product;
 use App\Models\EmployeeLead;
 use App\Models\DealEmployee;
 use App\Models\LeadProduct;
@@ -22,15 +23,17 @@ class DealService
     {
         $deal = $lead->deals->last();
 
-        if($deal){
+        if($deal) {
             $lead->update($request);
             return $deal;
         }
-        else{
+        else {
+
             EmployeeLead::create([
                 "employee_id" => $request["employee_id"],
                 "lead_id" => $lead->id
             ]);    
+
             $deal = Deal::create([
                 "employee_id" => $request["employee_id"],
                 "lead_id" => $lead->id,
@@ -45,27 +48,39 @@ class DealService
 
     public function update(Deal $deal, UpdateDealRequest $dealRequest)
     {
-        dd($dealRequest->request);
-        $dealRequest->collect()->each( function ($item, $key) use ($deal) {
-            if(Str::startsWith($key, "count") and $item > 0 ) {
-                LeadProduct::updateOrCreate([
-                    "lead_id" => $deal->lead->id,
-                    "product_id" => Str::substr($key, 5),
-                ], 
-                [
-                    "quantity" => $item
-                ]);
-            }    
+        foreach ($dealRequest->session()->all() as $key => $value) {
+            if(Str::startsWith($key, "id")) { 
+                $dealRequest->session()->forget($key);
+            }   
+        }
+
+        $dealRequest->collect()->each( function ($item, $key) use ($dealRequest) {
+            if((Str::startsWith($key, "id") and $item > 0)  ) { 
+                $dealRequest->session()->put($key, $item);
+            }      
         });
+
         $deal->update($dealRequest->validated());
     }
 
     public function closeDeal(Deal $deal) : void
     {
+        foreach (session()->all() as $key => $value) {
+            if(Str::startsWith($key, "id")) {
+                //dump(Str::startsWith($key, "id"));
+                DealProduct::create([ 
+                    "deal_id" => $deal->id,
+                    "product_id" => Str::substr($key, 2),
+                    "quantity" => $value
+                ]);
+            }
+        }
+
         DealEmployee::create([
             "employee_id" => $deal->employee->id,
             "deal_id" => $deal->id
         ]);
+        
         $deal->update([
             "status_id" => 1,
             "stage_id" => Deal::SUCCESS_DEALS,
@@ -83,18 +98,22 @@ class DealService
         ]);
     }
 
-    public function confirm(Deal $deal) : Deal
+//  retrieve products from the global session
+//  then calculate the deal amount and generate a list of products 
+    public function prepareDeal(): void
     {
-        foreach($deal->lead->products as $leadProduct){
-            DealProduct::updateOrCreate([
-                "deal_id" => $deal->id,
-                "product_id" => $leadProduct->id,
-            ], 
-            [
-                "quantity" => $leadProduct->pivot->quantity
-            ]);
+        $result = "";
+        $amount = 0;
+        foreach (session()->all() as $key => $value) {
+            if(Str::startsWith($key, "id")) { 
+                $product = Product::find(Str::substr($key, 2));
+                $result .= $value . "x " . $product->title . ",\n";
+                $amount += $value * $product->price;
+            }   
         }
-        return $deal;
+
+        session()->put("amount", $amount);
+        session()->put("product_list", $result);
     }
     
 }

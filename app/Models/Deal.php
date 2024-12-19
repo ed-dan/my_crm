@@ -23,7 +23,8 @@ class Deal extends Model
         'status_id',
         'task_id',
         'city',
-        'address'
+        'address',
+        'amount'
     ];
     protected array $sortable = ['city', 'position_id', 'created_at', 'email'];
 
@@ -123,19 +124,20 @@ class Deal extends Model
         return $this->whereYear("closing_date", substr($period, 1));
     }
 
-    public static function searcher($name, $deals, $employees, $products, $stages, $leads)
-    {
-        $deal_query = $deals
-            ->where($name, 'like', '%' . request('search') . '%')
-            ->paginate(8);
-        return view("deals.index", [
-            'deals' => $deal_query,
-            'employees' => $employees,
-            'products' => $products,
-            'stages' => $stages,
-            'leads' => $leads
-        ]);
-    }
+    // public static function searcher($name, $deals, $employees, $products, $stages, $leads)
+    // {
+    //     $deal_query = $deals
+    //         ->where($name, 'like', '%' . request('search') . '%')
+    //         ->paginate(8);
+
+    //     return view("deals.index", [
+    //         'deals' => $deal_query,
+    //         'employees' => $employees,
+    //         'products' => $products,
+    //         'stages' => $stages,
+    //         'leads' => $leads
+    //     ]);
+    // }
 
     public function getProductList() : string  
     {
@@ -145,10 +147,23 @@ class Deal extends Model
         return strlen($this->productList) ? $this->productList : "Empty" ;
     }
 
-    public function getDealAmount() : int
+    public function showProducts(): string 
     {
-        foreach($this->lead->products as $leadProduct){
-            $this->currentAmount += $leadProduct->pivot->quantity * $leadProduct->price;
+        $result = "";
+        foreach (session()->all() as $key => $value) {
+            if(Str::startsWith($key, "id")) { 
+                $product = Product::find(Str::substr($key, 2));
+                dd($product);
+            }   
+        }
+        return (str); 
+    }
+
+    public function getDealAmount(): int 
+    {
+        foreach($this->products as $dealProduct) {
+            $this->currentAmount += $dealProduct->pivot->quantity * $dealProduct->price;
+            dump($this->currentAmount);
         }
         return $this->currentAmount;
     }

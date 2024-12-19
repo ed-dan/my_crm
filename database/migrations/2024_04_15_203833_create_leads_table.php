@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger("phone")->nullable();
             $table->string("source");
             $table->unsignedBigInteger("employee_id")->nullable();
-            $table->index('employee_id','employee_lead_idx');
+            //$table->index('employee_id','employee_lead_idx');
             //$table->unsignedBigInteger("product_id")->nullable();
             //$table->index('product_id','lead_product_lead_idx');
             $table->timestamps();

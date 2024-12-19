@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger("price");
 
             $table->timestamps();
-            $table->index('company_id','product_company_idx');
+            //$table->index('company_id','product_company_idx');
             $table->index('deal_id','deal_product_idx');
 
         });
