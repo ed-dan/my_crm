@@ -7,8 +7,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
-    {{-- <link rel="stylesheet" href=" {{asset('resources/css/app.css')}}"
-          href=" {{asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback')}}"> --}}
     <!-- Font Awesome Icons -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,9 +22,7 @@
     <link rel="stylesheet" href=" {{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href=" {{asset('dist/css/adminlte.min.css')}}">
-    {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
-    {{--    <link rel="stylesheet"--}}
-    {{--          href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css') }}"/>--}}
+    
 </head>
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -97,9 +93,6 @@
                         <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                     </li>
                 @endif
-{{--                @if(App\Models\User::getPosition(Auth::user()->position_id) == "admin")--}}
-
-{{--                @endif--}}
 
             @else
 
@@ -227,7 +220,6 @@
             @yield("content2")
             @yield("content3")
             @yield("content4")
-
 
         @endif
 

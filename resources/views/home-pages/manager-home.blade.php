@@ -1,16 +1,11 @@
 @extends('layouts.admin-lte')
 
-
 @section('content')
-
 @include('partials.home-pages._up-statistic-data')
-
 @endsection
-
 
 @section('content2')
 
-    
 <section class="content " id="left">
     <div class="container-fluid">
         <!-- Info boxes -->
@@ -22,7 +17,6 @@
                                 <h3 class="ml-3">
                                     Manager Statistic:
                                 </h3>
-
                                 <div id="container" class="reverseScroll" style="overflow-y: scroll">
                                     <div style="margin: 5px" id="left">
                                         
@@ -93,8 +87,6 @@
     </div>
 </section>
 @endsection
-
-
 
 @section('content3')
 
@@ -184,9 +176,7 @@
                                             </table>
                                       </div>
                                     </div>
-                                </div>
-                           
-
+                                </div>                          
                         </div>
                         <!-- /.row -->
                     </div>

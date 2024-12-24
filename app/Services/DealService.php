@@ -2,16 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Deal;
-use App\Models\Status;
-use App\Models\Task;
-use App\Models\User;
-use App\Models\Lead;
-use App\Models\Product;
-use App\Models\EmployeeLead;
-use App\Models\DealEmployee;
-use App\Models\LeadProduct;
-use App\Models\DealProduct;
+use App\Models\{Deal, Status, Task, User, Lead, Product, EmployeeLead, DealEmployee, LeadProduct, DealProduct};
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UpdateDealRequest;
 use Illuminate\Support\Str;
@@ -67,7 +58,7 @@ class DealService
     {
         foreach (session()->all() as $key => $value) {
             if(Str::startsWith($key, "id")) {
-                //dump(Str::startsWith($key, "id"));
+               
                 DealProduct::create([ 
                     "deal_id" => $deal->id,
                     "product_id" => Str::substr($key, 2),
